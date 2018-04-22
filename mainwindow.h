@@ -2,9 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QPushButton>
+#include <QMap>
 
-#include <memory>
+#include "passdata.h"
+#include "currentpassword.h"
 
 namespace Ui {
 class MainWindow;
@@ -12,22 +13,27 @@ class MainWindow;
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+  explicit MainWindow(QWidget *parent = 0);
+  ~MainWindow();
 
 private slots:
 
   void on_loadButton_clicked();
   void on_clipboardButton_clicked();
-//  void clipBoardClearEvent();
+  void on_addButton_clicked();
+
+public slots:
+
+  void bar_decrement();
 
 private:
     Ui::MainWindow* ui;
-    int clipBoardTimerId;
-    QClipboard* clipboard;
+
+    PassData passData;
+    CurrentPassword currentPassword;
 
 protected:
 

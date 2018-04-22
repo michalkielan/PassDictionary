@@ -3,19 +3,18 @@
 
 #include "fileloader.h"
 #include "clipboard.h"
+#include "passphrase.h"
 
 #include <QListWidget>
 #include <QTextStream>
-#include <QClipboard>
-#include <QTimer>
 #include <QFile>
-#include <QDebug>
+#include <QRegExp>
+#include <QStringList>
+#include <QProgressBar>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    clipBoardTimerId(),
-    clipboard(nullptr)
+    ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
 }
@@ -25,10 +24,21 @@ MainWindow::~MainWindow()
   delete ui;
 }
 
+static Passphrase toPassphrase(const QString& passline)
+{
+  const QRegExp rgx("(\\ |\\t)");
+  const QStringList query = passline.split(rgx);
+
+  Passphrase passphrase;
+  passphrase.pass = query[0];
+  passphrase.word = query[1];
+
+  return passphrase;
+}
 
 void MainWindow::on_loadButton_clicked()
 {
-  FileLoader fl;
+  const FileLoader fl;
   const auto passFilePath = fl.getPath();
 
   QFile pass(passFilePath);
@@ -38,7 +48,9 @@ void MainWindow::on_loadButton_clicked()
      while(!buffer.atEnd())
      {
         const QString line = buffer.readLine();
-        ui->listPassphrases->addItem(line);
+        const Passphrase passphrase = toPassphrase(line);
+        passData.addPass(passphrase);
+        ui->listPassphrases->addItem(passphrase.word);
      }
      pass.close();
   }
@@ -46,23 +58,19 @@ void MainWindow::on_loadButton_clicked()
 
 void MainWindow::on_clipboardButton_clicked()
 {
-//  QClipboard* clipboard = QApplication::clipboard();
+ constexpr const unsigned int timeout_s = 12;
+ Clipboard clipboard(this, timeout_s);
 
-//  clipboard->setText("123456789");
-
-//  QTimer *timer = new QTimer(this);
-//  connect(timer, SIGNAL(timeout()), this, SLOT(clipBoardClearEvent()));
-//  timer->start(1000);
-//  qDebug() << "Start";
- Clipboard clipboard(1000);
-
- clipboard.setText("test test");
+ clipboard.setPass(currentPassword);
 }
 
-//void MainWindow::clipBoardClearEvent()
-//{
-//  qDebug() << "End";
-//  clipboard->setText("");
-//}
+void MainWindow::on_addButton_clicked()
+{
+  const QString& word = ui->listPassphrases->currentItem()->text();
+  currentPassword.append(passData.getPass(word));
+}
 
-
+void MainWindow::bar_decrement()
+{
+  ui->timeoutBar->setValue(ui->timeoutBar->value() - 10);
+}

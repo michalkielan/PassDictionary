@@ -27,12 +27,17 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     fileloader.cpp \
-    clipboard.cpp
+    clipboard.cpp \
+    passdata.cpp \
+    currentpassword.cpp
 
 HEADERS += \
         mainwindow.h \
     fileloader.h \
-    clipboard.h
+    clipboard.h \
+    passphrase.h \
+    passdata.h \
+    currentpassword.h
 
 FORMS += \
         mainwindow.ui

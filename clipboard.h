@@ -4,6 +4,9 @@
 #include <QClipboard>
 #include <QTimer>
 #include <QObject>
+#include "mainwindow.h"
+
+#include "currentpassword.h"
 
 class Clipboard : public QObject
 {
@@ -13,17 +16,21 @@ class Clipboard : public QObject
   QTimer* timer;
   unsigned int timeout;
   bool done;
+  MainWindow* window;
 
 public:
-  Clipboard(const unsigned int _timeout);
+  Clipboard(MainWindow* _mainWindow, const unsigned int _timeout_s);
 
-  void setText(const QString text);
+  void setPass(CurrentPassword& currentPassword);
 
   virtual ~Clipboard();
 
 private slots:
 
-  void clearClipboardEvent();
+  void clearClipboardEvent(CurrentPassword& currentPassword);
+
+signals:
+  void bar_decrement();
 };
 
 #endif // CLIPBOARD_H

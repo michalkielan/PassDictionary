@@ -2,6 +2,7 @@
 #define FILELOADER_H
 
 #include <QString>
+#include <QMainWindow>
 
 class FileLoader
 {
