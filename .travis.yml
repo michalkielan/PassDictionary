@@ -5,7 +5,7 @@ sudo: required
 
 script:
   - QMAKE_CC=gcc-7 QMAKE_CXX=g++-7 qmake PassDictionaryQt.pro
-  - make
+  - QMAKE_CC=gcc-7 QMAKE_CXX=g++-7 make
 
 addons:
   apt:
