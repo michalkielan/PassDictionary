@@ -7,7 +7,6 @@ class CurrentPassword
 {
 public:
   CurrentPassword();
-
   void append(const QString pass);
   QString get();
   void clear();

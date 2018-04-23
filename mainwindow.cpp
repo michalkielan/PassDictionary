@@ -38,7 +38,7 @@ static Passphrase toPassphrase(const QString& passline)
 
 void MainWindow::on_loadButton_clicked()
 {
-  const FileLoader fl;
+  const FileLoader fl{this};
   const auto passFilePath = fl.getPath();
 
   QFile pass(passFilePath);
@@ -58,10 +58,9 @@ void MainWindow::on_loadButton_clicked()
 
 void MainWindow::on_clipboardButton_clicked()
 {
- constexpr const unsigned int timeout_s = 10;
- Clipboard clipboard(this, timeout_s);
-
- clipboard.setPass(currentPassword);
+  constexpr const unsigned int timeout_s {10};
+  Clipboard clipboard(this, timeout_s);
+  clipboard.setPass(currentPassword);
 }
 
 void MainWindow::on_addButton_clicked()

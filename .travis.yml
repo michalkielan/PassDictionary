@@ -1,0 +1,23 @@
+dist: trusty
+os: linux
+language: cpp
+sudo: required
+
+script:
+  - qmake -makefile
+  - CC=gcc-7 CXX=g++-7 make
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - ubuntu-sdk-team-ppa
+    packages:
+      - gcc-7
+      - g++-7
+      - qtbase5-dev
+      - qtdeclarative5-dev
+      - libqt5webkit5-dev
+      - libsqlite3-dev
+      - qt5-default
+      - qttools5-dev-tools
