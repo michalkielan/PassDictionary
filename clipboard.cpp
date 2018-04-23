@@ -12,7 +12,7 @@ Clipboard::Clipboard(MainWindow *_mainWindow, const unsigned int _timeout_s) :
   done(false),
   window(_mainWindow)
 {
-  connect(this, &Clipboard::bar_decrement, window, &MainWindow::bar_decrement);
+  connect(this, &Clipboard::set_timeout_bar, window, &MainWindow::set_timeout_bar);
 }
 
 void Clipboard::setPass(CurrentPassword& currentPassword)
@@ -25,7 +25,12 @@ void Clipboard::setPass(CurrentPassword& currentPassword)
   clipboard->setText(currentPassword.get());
   connect(timer, &QTimer::timeout, this, [&,this](){clearClipboardEvent(currentPassword);});
 
- timer->start(1000);
+  constexpr const unsigned int maxBarValue {100};
+  constexpr const unsigned int timeoutPeriodMs {200};
+
+  set_timeout_bar(maxBarValue);
+  timer->start(timeoutPeriodMs);
+  timeout *= 4;
 
   while(!done)
   {
@@ -36,9 +41,11 @@ void Clipboard::setPass(CurrentPassword& currentPassword)
 void Clipboard::clearClipboardEvent(CurrentPassword& currentPassword)
 {
   timeout--;
-  emit bar_decrement();
+  static unsigned int barValue {100};
+  constexpr const unsigned int tick{2};
+  emit set_timeout_bar(barValue);
 
-  if(timeout == 0)
+  if(barValue == 0)
   {
     clipboard->clear();
     timer->stop();
@@ -46,6 +53,8 @@ void Clipboard::clearClipboardEvent(CurrentPassword& currentPassword)
     currentPassword.clear();
     done = true;
   }
+
+  barValue -= tick;
 }
 
 Clipboard::~Clipboard()

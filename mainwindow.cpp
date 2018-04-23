@@ -58,7 +58,7 @@ void MainWindow::on_loadButton_clicked()
 
 void MainWindow::on_clipboardButton_clicked()
 {
- constexpr const unsigned int timeout_s = 12;
+ constexpr const unsigned int timeout_s = 10;
  Clipboard clipboard(this, timeout_s);
 
  clipboard.setPass(currentPassword);
@@ -70,7 +70,7 @@ void MainWindow::on_addButton_clicked()
   currentPassword.append(passData.getPass(word));
 }
 
-void MainWindow::bar_decrement()
+void MainWindow::set_timeout_bar(unsigned int val)
 {
-  ui->timeoutBar->setValue(ui->timeoutBar->value() - 10);
+  ui->timeoutBar->setValue(val);
 }

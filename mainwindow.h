@@ -27,7 +27,7 @@ private slots:
 
 public slots:
 
-  void bar_decrement();
+  void set_timeout_bar(unsigned int val);
 
 private:
     Ui::MainWindow* ui;
