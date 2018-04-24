@@ -4,8 +4,8 @@ language: cpp
 sudo: required
 
 script:
-  - QMAKE_CC=gcc-7 QMAKE_CXX=g++-7 qmake PassDictionaryQt.pro
-  - QMAKE_CC=gcc-7 QMAKE_CXX=g++-7 make
+  - qmake PassDictionaryQt.pro
+  - make CC=gcc-7 CXX=g++-7 LINK=g++-7
 
 addons:
   apt:
