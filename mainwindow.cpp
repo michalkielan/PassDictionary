@@ -106,8 +106,7 @@ void MainWindow::set_timeout_bar(unsigned int val)
 
 void MainWindow::on_actionAbout_triggered()
 {
-    qDebug() << "action about clicked";
-    AboutWindow aw;
-    aw.setModal(true);
-    aw.exec();
+    AboutWindow about;
+    about.setModal(true);
+    about.exec();
 }
