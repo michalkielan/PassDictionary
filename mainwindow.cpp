@@ -106,7 +106,7 @@ void MainWindow::set_timeout_bar(unsigned int val)
 
 void MainWindow::on_actionAbout_triggered()
 {
-    AboutWindow about;
-    about.setModal(true);
-    about.exec();
+  AboutWindow about;
+  about.setModal(true);
+  about.exec();
 }
