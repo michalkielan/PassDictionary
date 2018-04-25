@@ -11,13 +11,13 @@
 #include <QRegExp>
 #include <QStringList>
 #include <QProgressBar>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
-
   initWidgets();
 }
 
@@ -69,10 +69,17 @@ void MainWindow::on_loadButton_clicked()
     QTextStream buffer(&pass);
     while(!buffer.atEnd())
     {
-      const QString line = buffer.readLine();
-      const Passphrase passphrase = toPassphrase(line);
-      passData.addPass(passphrase);
-      ui->listPassphrases->addItem(passphrase.word);
+      try
+      {
+        const QString line = buffer.readLine();
+        const Passphrase passphrase = toPassphrase(line);
+        passData.addPass(passphrase);
+        ui->listPassphrases->addItem(passphrase.word);
+      }
+      catch(...)
+      {
+        qDebug() << "Parse line failed";
+      }
     }
     pass.close();
   }
