@@ -4,7 +4,9 @@ language: cpp
 sudo: required
 
 script:
-  - qmake PassDictionaryQt.pro
+  - mkdir build
+  - cd build
+  - qmake ../PassDictionary.pro
   - make CC=${COMPILER_CC} CXX=${COMPILER_CXX} LINK=${COMPILER_CXX}
 
 matrix:
