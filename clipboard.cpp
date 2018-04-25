@@ -41,7 +41,8 @@ void Clipboard::setPass(CurrentPassword& currentPassword)
 void Clipboard::clearClipboardEvent(CurrentPassword& currentPassword)
 {
   timeout--;
-  static unsigned int barValue {100};
+  constexpr const unsigned int maxBarValue {100};
+  static unsigned int barValue {maxBarValue};
   constexpr const unsigned int tick{2};
   emit set_timeout_bar(barValue);
 
@@ -51,6 +52,7 @@ void Clipboard::clearClipboardEvent(CurrentPassword& currentPassword)
     timer->stop();
 
     currentPassword.clear();
+    barValue = maxBarValue;
     done = true;
   }
 

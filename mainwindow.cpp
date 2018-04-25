@@ -13,6 +13,7 @@
 #include <QStringList>
 #include <QProgressBar>
 #include <QDebug>
+#include <QLineEdit>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,10 +25,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::initWidgets()
 {
-  ui->addButton->setEnabled(false);
-  ui->clipboardButton->setEnabled(false);
-  ui->timeoutBar->setEnabled(false);
-  ui->listPassphrases->setEnabled(false);
+  enableWidgets(false);
+}
+
+void MainWindow::enableWidgets(const bool status)
+{
+  ui->addButton->setEnabled(status);
+  ui->clipboardButton->setEnabled(status);
+  ui->timeoutBar->setEnabled(status);
+  ui->listPassphrases->setEnabled(status);
+  ui->searchLineEdit->setEnabled(status);
 }
 
 MainWindow::~MainWindow()
@@ -50,10 +57,6 @@ static Passphrase toPassphrase(const QString& passline)
   passphrase.word = query[1];
 
   return passphrase;
-}
-
-void MainWindow::on_loadButton_clicked()
-{
 }
 
 void MainWindow::on_clipboardButton_clicked()
@@ -91,10 +94,7 @@ void MainWindow::on_action_Open_pass_file_triggered()
   QFile pass(passFilePath);
   if(pass.open(QIODevice::ReadOnly))
   {
-    ui->addButton->setEnabled(true);
-    ui->clipboardButton->setEnabled(true);
-    ui->timeoutBar->setEnabled(true);
-    ui->listPassphrases->setEnabled(true);
+    enableWidgets(true);
 
     QTextStream buffer(&pass);
     while(!buffer.atEnd())
@@ -120,15 +120,31 @@ void MainWindow::on_searchLineEdit_textChanged(const QString &arg1)
   const QString& textToSearch = arg1;
   const auto elements = ui->listPassphrases->count();
 
-  for (int i = 0; i < elements; ++i)
+  for(int i = 0; i < elements; ++i)
   {
-    if (ui->listPassphrases->item(i)->text().startsWith(textToSearch))
+    if(ui->listPassphrases->item(i)->text().startsWith(textToSearch))
     {
-         ui->listPassphrases->item(i)->setHidden(false);
+       ui->listPassphrases->item(i)->setHidden(false);
     }
     else
     {
-         ui->listPassphrases->item(i)->setHidden(true);
+      ui->listPassphrases->item(i)->setHidden(true);
     }
   }
+}
+
+void MainWindow::on_actionClose_file_triggered()
+{
+  ui->listPassphrases->clear();
+  enableWidgets(false);
+}
+
+void MainWindow::on_action_Exit_triggered()
+{
+  this->close();
+}
+
+void MainWindow::on_action_Print_triggered()
+{
+  auto s = passData.getString();
 }

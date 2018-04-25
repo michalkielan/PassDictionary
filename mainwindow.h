@@ -20,15 +20,16 @@ public:
   ~MainWindow();
 
 private slots:
-  void on_loadButton_clicked();
   void on_clipboardButton_clicked();
   void on_addButton_clicked();
-
   void on_actionAbout_triggered();
-
   void on_action_Open_pass_file_triggered();
-
   void on_searchLineEdit_textChanged(const QString &arg1);
+  void on_actionClose_file_triggered();
+
+  void on_action_Exit_triggered();
+
+  void on_action_Print_triggered();
 
 public slots:
   void set_timeout_bar(unsigned int val);
@@ -39,6 +40,7 @@ private:
     CurrentPassword currentPassword;
 
     void initWidgets();
+    void enableWidgets(const bool status);
 
 };
 
