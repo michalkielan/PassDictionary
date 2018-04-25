@@ -24,25 +24,26 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+INCLUDEPATH+=$$PWD/inc/
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
-    fileloader.cpp \
-    clipboard.cpp \
-    passdata.cpp \
-    currentpassword.cpp \
-    aboutwindow.cpp
+    src/main.cpp \
+    src/mainwindow.cpp \
+    src/fileloader.cpp \
+    src/clipboard.cpp \
+    src/passdata.cpp \
+    src/currentpassword.cpp \
+    src/aboutwindow.cpp
 
 HEADERS += \
-        mainwindow.h \
-    fileloader.h \
-    clipboard.h \
-    passphrase.h \
-    passdata.h \
-    currentpassword.h \
-    aboutwindow.h
+    inc/mainwindow.h \
+    inc/fileloader.h \
+    inc/clipboard.h \
+    inc/passphrase.h \
+    inc/passdata.h \
+    inc/currentpassword.h \
+    inc/aboutwindow.h
 
 FORMS += \
-        mainwindow.ui \
-    aboutwindow.ui
+    forms/mainwindow.ui \
+    forms/aboutwindow.ui
