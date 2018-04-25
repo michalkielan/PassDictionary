@@ -17,6 +17,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
+
+  initWidgets();
+}
+
+void MainWindow::initWidgets()
+{
+  ui->addButton->setEnabled(false);
+  ui->clipboardButton->setEnabled(false);
+  ui->timeoutBar->setEnabled(false);
+  ui->listPassphrases->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -29,6 +39,11 @@ static Passphrase toPassphrase(const QString& passline)
   const QRegExp rgx("(\\ |\\t)");
   const QStringList query = passline.split(rgx);
 
+  if(query.size() != 2)
+  {
+    throw "Bad pass file format";
+  }
+
   Passphrase passphrase;
   passphrase.pass = query[0];
   passphrase.word = query[1];
@@ -38,21 +53,28 @@ static Passphrase toPassphrase(const QString& passline)
 
 void MainWindow::on_loadButton_clicked()
 {
+  ui->listPassphrases->clear();
   const FileLoader fl{this};
+
   const auto passFilePath = fl.getPath();
 
   QFile pass(passFilePath);
   if(pass.open(QIODevice::ReadOnly))
   {
-     QTextStream buffer(&pass);
-     while(!buffer.atEnd())
-     {
-        const QString line = buffer.readLine();
-        const Passphrase passphrase = toPassphrase(line);
-        passData.addPass(passphrase);
-        ui->listPassphrases->addItem(passphrase.word);
-     }
-     pass.close();
+    ui->addButton->setEnabled(true);
+    ui->clipboardButton->setEnabled(true);
+    ui->timeoutBar->setEnabled(true);
+    ui->listPassphrases->setEnabled(true);
+
+    QTextStream buffer(&pass);
+    while(!buffer.atEnd())
+    {
+      const QString line = buffer.readLine();
+      const Passphrase passphrase = toPassphrase(line);
+      passData.addPass(passphrase);
+      ui->listPassphrases->addItem(passphrase.word);
+    }
+    pass.close();
   }
 }
 

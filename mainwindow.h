@@ -32,6 +32,8 @@ private:
     PassData        passData;
     CurrentPassword currentPassword;
 
+    void initWidgets();
+
 };
 
 #endif // MAINWINDOW_H
