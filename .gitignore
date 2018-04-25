@@ -1,4 +1,5 @@
 *.autosave
 *.user
 *.pro.user
+PassDictionaryQt.pro.user
 *.user.*
