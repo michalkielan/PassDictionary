@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Pass Dictionary</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QPushButton" name="loadButton">
@@ -110,6 +110,7 @@
     <property name="title">
      <string>Tools</string>
     </property>
+    <addaction name="action_Test"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
     <property name="title">
@@ -180,6 +181,11 @@
   <action name="actionAbout">
    <property name="text">
     <string>&amp;About</string>
+   </property>
+  </action>
+  <action name="action_Test">
+   <property name="text">
+    <string>&amp;Test</string>
    </property>
   </action>
  </widget>

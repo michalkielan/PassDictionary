@@ -31,7 +31,8 @@ SOURCES += \
     fileloader.cpp \
     clipboard.cpp \
     passdata.cpp \
-    currentpassword.cpp
+    currentpassword.cpp \
+    aboutwindow.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -39,7 +40,9 @@ HEADERS += \
     clipboard.h \
     passphrase.h \
     passdata.h \
-    currentpassword.h
+    currentpassword.h \
+    aboutwindow.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    aboutwindow.ui

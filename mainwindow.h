@@ -24,6 +24,8 @@ private slots:
   void on_clipboardButton_clicked();
   void on_addButton_clicked();
 
+  void on_actionAbout_triggered();
+
 public slots:
   void set_timeout_bar(unsigned int val);
 

@@ -4,6 +4,7 @@
 #include "fileloader.h"
 #include "clipboard.h"
 #include "passphrase.h"
+#include "aboutwindow.h"
 
 #include <QListWidget>
 #include <QTextStream>
@@ -101,4 +102,12 @@ void MainWindow::on_addButton_clicked()
 void MainWindow::set_timeout_bar(unsigned int val)
 {
   ui->timeoutBar->setValue(val);
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+    qDebug() << "action about clicked";
+    AboutWindow aw;
+    aw.setModal(true);
+    aw.exec();
 }
