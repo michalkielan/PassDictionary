@@ -26,6 +26,10 @@ private slots:
 
   void on_actionAbout_triggered();
 
+  void on_action_Open_pass_file_triggered();
+
+  void on_searchLineEdit_textChanged(const QString &arg1);
+
 public slots:
   void set_timeout_bar(unsigned int val);
 

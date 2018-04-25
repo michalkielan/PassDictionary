@@ -54,6 +54,35 @@ static Passphrase toPassphrase(const QString& passline)
 
 void MainWindow::on_loadButton_clicked()
 {
+}
+
+void MainWindow::on_clipboardButton_clicked()
+{
+  constexpr const unsigned int timeout_s {10};
+  Clipboard clipboard(this, timeout_s);
+  clipboard.setPass(currentPassword);
+}
+
+void MainWindow::on_addButton_clicked()
+{
+  const QString& word = ui->listPassphrases->currentItem()->text();
+  currentPassword.append(passData.getPass(word));
+}
+
+void MainWindow::set_timeout_bar(unsigned int val)
+{
+  ui->timeoutBar->setValue(val);
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+  AboutWindow about;
+  about.setModal(true);
+  about.exec();
+}
+
+void MainWindow::on_action_Open_pass_file_triggered()
+{
   ui->listPassphrases->clear();
   const FileLoader fl{this};
 
@@ -86,27 +115,20 @@ void MainWindow::on_loadButton_clicked()
   }
 }
 
-void MainWindow::on_clipboardButton_clicked()
+void MainWindow::on_searchLineEdit_textChanged(const QString &arg1)
 {
-  constexpr const unsigned int timeout_s {10};
-  Clipboard clipboard(this, timeout_s);
-  clipboard.setPass(currentPassword);
-}
+  const QString& textToSearch = arg1;
+  const auto elements = ui->listPassphrases->count();
 
-void MainWindow::on_addButton_clicked()
-{
-  const QString& word = ui->listPassphrases->currentItem()->text();
-  currentPassword.append(passData.getPass(word));
-}
-
-void MainWindow::set_timeout_bar(unsigned int val)
-{
-  ui->timeoutBar->setValue(val);
-}
-
-void MainWindow::on_actionAbout_triggered()
-{
-  AboutWindow about;
-  about.setModal(true);
-  about.exec();
+  for (int i = 0; i < elements; ++i)
+  {
+    if (ui->listPassphrases->item(i)->text().startsWith(textToSearch))
+    {
+         ui->listPassphrases->item(i)->setHidden(false);
+    }
+    else
+    {
+         ui->listPassphrases->item(i)->setHidden(true);
+    }
+  }
 }
