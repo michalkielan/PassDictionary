@@ -26,3 +26,8 @@ QString PassData::getString()
   }
   return "";
 }
+
+void PassData::clear()
+{
+  passphrases.clear();
+}

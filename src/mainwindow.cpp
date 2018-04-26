@@ -136,6 +136,8 @@ void MainWindow::on_searchLineEdit_textChanged(const QString &arg1)
 void MainWindow::on_actionClose_file_triggered()
 {
   ui->listPassphrases->clear();
+  passData.clear();
+  currentPassword.clear();
   enableWidgets(false);
 }
 

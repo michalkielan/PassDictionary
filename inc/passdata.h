@@ -13,6 +13,7 @@ public:
   void addPass(const Passphrase passphrase);
   QString getPass(const QString word);
   QString getString();
+  void clear();
 
 private:
   QMap<QString, QString> passphrases;
