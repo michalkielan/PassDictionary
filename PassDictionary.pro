@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui
+QT += printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -33,7 +34,8 @@ SOURCES += \
     src/clipboard.cpp \
     src/passdata.cpp \
     src/currentpassword.cpp \
-    src/aboutwindow.cpp
+    src/aboutwindow.cpp \
+    src/printer.cpp
 
 HEADERS += \
     inc/mainwindow.h \
@@ -42,7 +44,8 @@ HEADERS += \
     inc/passphrase.h \
     inc/passdata.h \
     inc/currentpassword.h \
-    inc/aboutwindow.h
+    inc/aboutwindow.h \
+    inc/printer.h
 
 FORMS += \
     forms/mainwindow.ui \
