@@ -1,20 +1,20 @@
 #ifndef FILELOADER_H
 #define FILELOADER_H
 
-#include "mainwindow.h"
-
 #include <QString>
-#include <QMainWindow>
 
+/**
+ * @brief The FileLoader class
+ */
 class FileLoader
 {
 public:
-  FileLoader(MainWindow* _window);
-  QString getPath() const;
-  ~FileLoader() = default;
 
-private:
-  MainWindow* window;
+  /**
+   * @brief getPath
+   * @return path set by user
+   */
+  static QString getPath();
 
 };
 

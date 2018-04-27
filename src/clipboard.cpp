@@ -1,5 +1,4 @@
 #include "clipboard.h"
-
 #include "mainwindow.h"
 
 #include<QApplication>
@@ -15,7 +14,7 @@ Clipboard::Clipboard(MainWindow *_mainWindow, const unsigned int _timeout_s) :
   connect(this, &Clipboard::set_timeout_bar, window, &MainWindow::set_timeout_bar);
 }
 
-void Clipboard::setPass(CurrentPassword& currentPassword)
+void Clipboard::copyToClipboard(CurrentPassword& currentPassword)
 {
   if(currentPassword.get().isEmpty())
   {
@@ -23,7 +22,7 @@ void Clipboard::setPass(CurrentPassword& currentPassword)
   }
 
   clipboard->setText(currentPassword.get());
-  connect(timer, &QTimer::timeout, this, [&,this](){clearClipboardEvent(currentPassword);});
+  connect(timer.data(), &QTimer::timeout, this, [&,this](){timeoutEvent(currentPassword);});
 
   constexpr const unsigned int maxBarValue {100};
   constexpr const unsigned int timeoutPeriodMs {200};
@@ -38,7 +37,7 @@ void Clipboard::setPass(CurrentPassword& currentPassword)
   }
 }
 
-void Clipboard::clearClipboardEvent(CurrentPassword& currentPassword)
+void Clipboard::timeoutEvent(CurrentPassword& currentPassword)
 {
   timeout--;
   constexpr const unsigned int maxBarValue {100};
@@ -61,5 +60,4 @@ void Clipboard::clearClipboardEvent(CurrentPassword& currentPassword)
 
 Clipboard::~Clipboard()
 {
-  delete timer;
 }
