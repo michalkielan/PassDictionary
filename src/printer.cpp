@@ -10,31 +10,53 @@
 #include <QTemporaryDir>
 
 
-Printer::Printer(const QString passData)
+///
+#include <QFileDialog>
+#include <QTextDocument>
+///
+
+Printer::Printer(const PassData& passData) :
+  passData(passData)
 {
 }
 
 void Printer::print()
 {
-  const QString tmpFileName = "tmp_pass_data.pdf";
+  /// generate pdf
+  QString fileName = QFileDialog::getSaveFileName(nullptr, "Export PDF", QString(), "*.pdf");
+  if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
 
-  QTemporaryDir tmp;
-  QDir separator;
+  QPrinter printer(QPrinter::PrinterResolution);
+  printer.setOutputFormat(QPrinter::PdfFormat);
+  printer.setPaperSize(QPrinter::A4);
+  printer.setOutputFileName(fileName);
 
-  QDir tmpFilePath = tmp.path() + separator.separator() + tmpFileName;
-  //QDir path; path.separator();
+  QTextDocument doc;
 
-  //QString fileName{QTemporaryDir::path() + QDir::separator() + "tmp_pass_data.pdf"};
+  doc.setHtml(passData.getPdfHtml());
+  doc.setPageSize(printer.pageRect().size());
+  doc.print(&printer);
 
-  QPdfWriter pdfwriter("");
-  pdfwriter.setPageSize(QPageSize(QPageSize::A4));
-  QPainter painter(&pdfwriter);
+  /// create pdf
+//  const QString tmpFileName = "tmp_pass_data.pdf";
+
+//  QTemporaryDir tmp;
+//  QDir separator;
+
+//  QDir tmpFilePath = tmp.path() + separator.separator() + tmpFileName;
+//  //QDir path; path.separator();
+
+//  //QString fileName{QTemporaryDir::path() + QDir::separator() + "tmp_pass_data.pdf"};
+
+//  QPdfWriter pdfwriter("");
+//  pdfwriter.setPageSize(QPageSize(QPageSize::A4));
+//  QPainter painter(&pdfwriter);
 
 
-  QPrinter printer;
+//  QPrinter printer;
 
-  QPrintDialog dialog(&printer);
-  dialog.setWindowTitle(QDialog::tr("Print Document"));
-  dialog.setModal(true);
-  dialog.exec();
+//  QPrintDialog dialog(&printer);
+//  dialog.setWindowTitle(QDialog::tr("Print Document"));
+//  dialog.setModal(true);
+//  dialog.exec();
 }

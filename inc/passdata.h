@@ -12,7 +12,7 @@ public:
   PassData();
   void addPass(const Passphrase passphrase);
   QString getPass(const QString word);
-  QString getString();
+  QString getPdfHtml();
   void clear();
 
 private:

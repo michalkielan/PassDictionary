@@ -149,6 +149,6 @@ void MainWindow::on_action_Exit_triggered()
 
 void MainWindow::on_action_Print_triggered()
 {
-  Printer printer(passData.getString());
+  Printer printer(passData);
   printer.print();
 }
