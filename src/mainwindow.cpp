@@ -64,7 +64,7 @@ void MainWindow::on_clipboardButton_clicked()
 {
   constexpr const unsigned int timeout_s {10};
   Clipboard clipboard(this, timeout_s);
-  clipboard.setPass(currentPassword);
+  clipboard.copyToClipboard(currentPassword);
 }
 
 void MainWindow::on_addButton_clicked()
@@ -88,9 +88,8 @@ void MainWindow::on_actionAbout_triggered()
 void MainWindow::on_action_Open_pass_file_triggered()
 {
   ui->listPassphrases->clear();
-  const FileLoader fl{this};
 
-  const auto passFilePath = fl.getPath();
+  const auto passFilePath = FileLoader::getPath();
 
   QFile pass(passFilePath);
   if(pass.open(QIODevice::ReadOnly))
