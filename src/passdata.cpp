@@ -16,15 +16,16 @@ QString PassData::getPass(const QString word)
   return passphrases[word];
 }
 
-QString PassData::getString()
+QString PassData::getPdfHtml()
 {
+  QString passList;
   for(auto& passphrase : passphrases.keys())
   {
-    const QString& pass = passphrase;
-    const QString& word = passphrases.value(passphrase);
-    qDebug() << pass << ", " << word << '\n';
+    const QString& word = passphrase;
+    const QString& pass = passphrases.value(passphrase);
+    passList += "<p style=\"font-size:60%;\">" + pass + "\t" + word + "</p>";
   }
-  return "";
+  return passList;
 }
 
 void PassData::clear()

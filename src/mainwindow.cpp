@@ -5,6 +5,7 @@
 #include "clipboard.h"
 #include "passphrase.h"
 #include "aboutwindow.h"
+#include "printer.h"
 
 #include <QListWidget>
 #include <QTextStream>
@@ -148,5 +149,6 @@ void MainWindow::on_action_Exit_triggered()
 
 void MainWindow::on_action_Print_triggered()
 {
-  auto s = passData.getString();
+  Printer printer(passData);
+  printer.print();
 }
