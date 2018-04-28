@@ -3,7 +3,7 @@
 
 #include <QLabel>
 
-AboutWindow::AboutWindow(QWidget *parent) :
+AboutWindow::AboutWindow(QWidget* parent) :
   QDialog(parent),
   ui(new Ui::AboutWindow)
 {
@@ -21,7 +21,7 @@ AboutWindow::~AboutWindow()
   delete ui;
 }
 
-void AboutWindow::on_pushButton_clicked()
+void AboutWindow::on_okButton_clicked()
 {
   this->close();
 }

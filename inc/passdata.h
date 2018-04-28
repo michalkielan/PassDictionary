@@ -21,6 +21,7 @@ public:
    * @brief Copy constructor
    */
   PassData(const PassData& other);
+
   /**
    * @brief Move constructor
    */

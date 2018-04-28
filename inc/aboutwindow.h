@@ -20,7 +20,7 @@ public:
    * @brief Constructor
    * @param parent
    */
-  explicit AboutWindow(QWidget *parent = 0);
+  explicit AboutWindow(QWidget* parent = 0);
 
   /**
     * @brief Destructor
@@ -32,10 +32,10 @@ private slots:
   /**
    * @brief Ok button clik - end
    */
-  void on_pushButton_clicked();
+  void on_okButton_clicked();
 
 private:
-  Ui::AboutWindow *ui;
+  Ui::AboutWindow* ui;
 };
 
 #endif // ABOUTWINDOW_H
