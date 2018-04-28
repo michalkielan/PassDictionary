@@ -43,12 +43,12 @@ private slots:
   void on_addButton_clicked();
 
   /**
-   * @brief Menu->About clicked event
+   * @brief Help->About clicked event
    */
   void on_actionAbout_triggered();
 
   /**
-   * @brief Menu->Open Pass File clicked event
+   * @brief File->Open Pass File clicked event
    */
   void on_action_Open_pass_file_triggered();
 
@@ -59,27 +59,43 @@ private slots:
   void on_searchLineEdit_textChanged(const QString &arg1);
 
   /**
-   * @brief Close file event
+   * @brief File->Close file event
    */
   void on_actionClose_file_triggered();
 
   /**
-   * @brief on_action_Exit_triggered
+   * @brief File->Exit clicked event
    */
   void on_action_Exit_triggered();
 
+  /**
+   * @brief File->Print clicked event
+   */
   void on_action_Print_triggered();
 
 public slots:
+
+  /**
+   * @brief Set value in timeout bar
+   * @param value
+   */
   void set_timeout_bar(unsigned int val);
 
 private:
-    Ui::MainWindow* ui;
-    PassData        passData;
-    CurrentPassword currentPassword;
+  Ui::MainWindow* ui;
+  PassData        passData;
+  CurrentPassword currentPassword;
 
-    void initWidgets();
-    void enableWidgets(const bool status);
+  /**
+   * @brief Init grayed widgets
+   */
+  void initWidgets();
+
+  /**
+   * @brief Enable widgest
+   * @param enable true - visible, false - greyed
+   */
+  void enableWidgets(const bool status);
 
 };
 

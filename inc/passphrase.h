@@ -3,6 +3,10 @@
 
 #include <QString>
 
+
+/**
+ * @brief The Passphrase struct, keeping pair of pass and word
+ */
 struct Passphrase
 {
   QString pass;

@@ -1,13 +1,14 @@
 #ifndef CLIPBOARD_H
 #define CLIPBOARD_H
 
-#include "mainwindow.h"
 #include "currentpassword.h"
 
-#include <QClipboard>
 #include <QObject>
 #include <QScopedPointer>
-#include <QTimer>
+
+class QClipboard;
+class QTimer;
+class MainWindow;
 
 /**
  * @brief The Clipboard class

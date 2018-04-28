@@ -5,12 +5,12 @@
 #include <QPainter>
 #include <QTextDocument>
 
-Printer::Printer(const PassData& passData) :
-  passData(passData)
+Printer::Printer(const PassData& _passData) :
+  passData(_passData)
 {
 }
 
-void Printer::print()
+void Printer::print() const
 {
   QPrinter printer;
   QTextDocument textDocument;
@@ -24,4 +24,8 @@ void Printer::print()
 
   textDocument.setPageSize(printer.pageRect().size());
   textDocument.print(&printer);
+}
+
+Printer::~Printer()
+{
 }

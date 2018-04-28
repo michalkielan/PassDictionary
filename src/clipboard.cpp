@@ -2,7 +2,10 @@
 #include "mainwindow.h"
 
 #include<QApplication>
+#include<QClipboard>
 #include<QDebug>
+#include<QTimer>
+
 
 Clipboard::Clipboard(MainWindow *_mainWindow, const unsigned int _timeout_s) :
   clipboard(QApplication::clipboard()),
