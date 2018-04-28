@@ -29,6 +29,7 @@ public:
    * @brief Copy constructor deleted
    */
   Clipboard(const Clipboard& other) = delete;
+
   /**
    * @brief Move constructor deleted
    */

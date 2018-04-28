@@ -27,12 +27,12 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::initWidgets()
 {
   enableWidgets(false);
+  ui->clipboardButton->setEnabled(false);
 }
 
 void MainWindow::enableWidgets(const bool status)
 {
   ui->addButton->setEnabled(status);
-  ui->clipboardButton->setEnabled(status);
   ui->timeoutBar->setEnabled(status);
   ui->listPassphrases->setEnabled(status);
   ui->searchLineEdit->setEnabled(status);
@@ -62,7 +62,9 @@ static Passphrase toPassphrase(const QString& passline)
 
 void MainWindow::on_clipboardButton_clicked()
 {
+  ui->clipboardButton->setEnabled(false);
   constexpr const unsigned int timeout_s {10};
+
   Clipboard clipboard(this, timeout_s);
   clipboard.copyToClipboard(currentPassword);
 }
@@ -71,6 +73,7 @@ void MainWindow::on_addButton_clicked()
 {
   const QString& word = ui->listPassphrases->currentItem()->text();
   currentPassword.append(passData.getPass(word));
+  ui->clipboardButton->setEnabled(true);
 }
 
 void MainWindow::set_timeout_bar(unsigned int val)
