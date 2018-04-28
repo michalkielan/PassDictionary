@@ -15,6 +15,9 @@ public:
   explicit GenaratorWindow(QWidget *parent = 0);
   ~GenaratorWindow();
 
+private slots:
+  void on_inputFileButton_clicked();
+
 private:
   Ui::GenaratorWindow *ui;
 };
