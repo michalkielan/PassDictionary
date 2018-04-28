@@ -6,6 +6,7 @@
 
 QT += core gui
 QT += printsupport
+QT += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -35,7 +36,9 @@ SOURCES += \
     src/passdata.cpp \
     src/currentpassword.cpp \
     src/aboutwindow.cpp \
-    src/printer.cpp
+    src/printer.cpp \
+    src/generator/httpclient.cpp \
+    src/generator/genaratorwindow.cpp
 
 HEADERS += \
     inc/mainwindow.h \
@@ -45,8 +48,11 @@ HEADERS += \
     inc/passdata.h \
     inc/currentpassword.h \
     inc/aboutwindow.h \
-    inc/printer.h
+    inc/printer.h \
+    inc/generator/httpclient.h \
+    inc/generator/genaratorwindow.h
 
 FORMS += \
     forms/mainwindow.ui \
-    forms/aboutwindow.ui
+    forms/aboutwindow.ui \
+    forms/genaratorwindow.ui

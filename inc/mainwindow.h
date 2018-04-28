@@ -73,6 +73,8 @@ private slots:
    */
   void on_action_Print_triggered();
 
+  void on_action_New_pass_file_triggered();
+
 public slots:
 
   /**

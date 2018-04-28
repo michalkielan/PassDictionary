@@ -6,6 +6,7 @@
 #include "passphrase.h"
 #include "aboutwindow.h"
 #include "printer.h"
+#include "generator/genaratorwindow.h"
 
 #include <QListWidget>
 #include <QTextStream>
@@ -153,4 +154,11 @@ void MainWindow::on_action_Print_triggered()
 {
   Printer printer(passData);
   printer.print();
+}
+
+void MainWindow::on_action_New_pass_file_triggered()
+{
+  GenaratorWindow gw;
+  gw.setModal(true);
+  gw.exec();
 }
