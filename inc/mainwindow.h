@@ -58,6 +58,8 @@ private slots:
    */
   void on_searchLineEdit_textChanged(const QString &arg1);
 
+  void on_searchLineEdit_setHiddenFromElem(int i);
+
   /**
    * @brief File->Close file event
    */

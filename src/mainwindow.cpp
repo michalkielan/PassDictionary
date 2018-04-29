@@ -122,18 +122,35 @@ void MainWindow::on_searchLineEdit_textChanged(const QString &arg1)
 {
   const QString& textToSearch = arg1;
   const auto elements = ui->listPassphrases->count();
+  bool oldBool = false;
 
   for(int i = 0; i < elements; ++i)
   {
     if(ui->listPassphrases->item(i)->text().startsWith(textToSearch))
     {
        ui->listPassphrases->item(i)->setHidden(false);
+       oldBool = true;
     }
     else
     {
       ui->listPassphrases->item(i)->setHidden(true);
+
+      if (oldBool == true) {
+        // falling edge detected, so let's 
+        // setHidden from elem i+1 to the last.
+        return on_searchLineEdit_setHiddenFromElem(i+1);
+      }    
     }
   }
+}
+
+void MainWindow::on_searchLineEdit_setHiddenFromElem(int i)
+{
+  const auto elements = ui->listPassphrases->count();
+  for(; i < elements; ++i) {
+      ui->listPassphrases->item(i)->setHidden(true);
+  }
+  return;
 }
 
 void MainWindow::on_actionClose_file_triggered()
