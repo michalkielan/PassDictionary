@@ -122,7 +122,7 @@ void MainWindow::on_searchLineEdit_textChanged(const QString &arg1)
 {
   const QString& textToSearch = arg1;
   const auto elements = ui->listPassphrases->count();
-  bool oldBool = false;
+  bool highLevelDetected = false;
 
   auto setHiddenFromElem = [this, elements](int i) {
     for(; i < elements; ++i) {
@@ -136,15 +136,13 @@ void MainWindow::on_searchLineEdit_textChanged(const QString &arg1)
     if(ui->listPassphrases->item(i)->text().startsWith(textToSearch))
     {
        ui->listPassphrases->item(i)->setHidden(false);
-       oldBool = true;
+       highLevelDetected = true;
     }
     else
     {
       ui->listPassphrases->item(i)->setHidden(true);
 
-      if (oldBool == true) {
-        // falling edge detected, so let's 
-        // setHidden from elem i+1 to the last.
+      if (highLevelDetected == true) {
         return setHiddenFromElem(i+1);
       }    
     }

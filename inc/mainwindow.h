@@ -55,6 +55,8 @@ private slots:
   /**
    * @brief Search line event call when text is changed
    * @param arg1
+   *
+   * when 'falling edge' detected, the rest of list will be setHidden(true)
    */
   void on_searchLineEdit_textChanged(const QString &arg1);
 
