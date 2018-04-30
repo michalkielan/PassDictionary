@@ -1,5 +1,5 @@
 #include "generator/anurandom.h"
-#include "generator/httpclient.h"
+#include "http/httpclient.h"
 
 AnuRandom::AnuRandom(const qsizetype _len) :
   len{_len}
@@ -23,7 +23,14 @@ QVector<uchar> AnuRandom::getRandom()
 
   QTimer::singleShot(0, &anuDownloader, SLOT(execute()));
 
-  auto pagesDownloaded = anuDownloader.getData();
+  QVector<QString> pages;
+  connect(&anuDownloader, &HttpClient::downloadEvent, this, [&,this](const QString value){
+    pages.push_back(qMove(value));
+
+    // write to file?
+  });
+
+  anuDownloader.waitForDownload(5000);
 
   QVector<uchar> v;
   return v;

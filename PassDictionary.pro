@@ -37,10 +37,11 @@ SOURCES += \
     src/currentpassword.cpp \
     src/aboutwindow.cpp \
     src/printer.cpp \
-    src/generator/httpclient.cpp \
+    src/http/httpclient.cpp \
     src/generator/genaratorwindow.cpp \
     src/generator/randomengine.cpp \
-    src/generator/anurandom.cpp
+    src/generator/anurandom.cpp \
+    inc/generator/anujsonparser.cpp
 
 HEADERS += \
     inc/mainwindow.h \
@@ -51,11 +52,12 @@ HEADERS += \
     inc/currentpassword.h \
     inc/aboutwindow.h \
     inc/printer.h \
-    inc/generator/httpclient.h \
+    inc/http/httpclient.h \
+    inc/http/httpstatuscodes.h \
     inc/generator/genaratorwindow.h \
     inc/generator/randomengine.h \
     inc/generator/anurandom.h \
-    inc/generator/httpstatuscodes.h
+    inc/generator/anujsonparser.h
 
 FORMS += \
     forms/mainwindow.ui \

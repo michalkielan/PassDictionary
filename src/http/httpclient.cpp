@@ -1,5 +1,5 @@
-#include "generator/httpclient.h"
-#include "generator/httpstatuscodes.h"
+#include "http/httpclient.h"
+#include "http/httpstatuscodes.h"
 
 #include <QList>
 #include <QSslError>
@@ -9,28 +9,23 @@ HttpClient::HttpClient(const QVector<QString>& _downloadUrls) :
   manager{},
   currentDownloads{},
   isFinished{false},
-  downloadedData{},
   downloadUrls{_downloadUrls}
 {
-  connect(&manager, SIGNAL(finished(QNetworkReply*)), SLOT(downloadFinished(QNetworkReply*)));
+  connect(&manager, &QNetworkAccessManager::finished, this, &HttpClient::readDownloaded);
 }
 
-QVector<QString> HttpClient::getData() const
-{
-  return getData(5000);
-}
-
-QVector<QString> HttpClient::getData(const int timeout_msec) const
+void HttpClient::waitForDownload(const int timeout_ms) const
 {
   QTimer timer;
-  timer.setSingleShot(true);
   QEventLoop loop;
-  connect(this, SIGNAL(downloadFinished()), &loop, SLOT(quit()));
-  connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
-  timer.start(timeout_msec);
-  loop.exec();
 
-  return downloadedData;
+  timer.setSingleShot(true);
+
+  connect(this,   &HttpClient::downloadFinished, &loop, &QEventLoop::quit);
+  connect(&timer, &QTimer::timeout,              &loop, &QEventLoop::quit);
+
+  timer.start(timeout_ms);
+  loop.exec();
 }
 
 void HttpClient::requestDownload(const QUrl& url)
@@ -69,14 +64,16 @@ void HttpClient::execute()
 void HttpClient::sslErrors(const QList<QSslError>& sslErrors)
 {
 #if QT_CONFIG(ssl)
-    for (const QSslError &error : sslErrors)
-        fprintf(stderr, "SSL error: %s\n", qPrintable(error.errorString()));
+   for (const QSslError &error : sslErrors)
+   {
+     qDebug() << "SSL error: " << qPrintable(error.errorString());
+   }
 #else
     Q_UNUSED(sslErrors);
 #endif
 }
 
-void HttpClient::downloadFinished(QNetworkReply* reply)
+void HttpClient::readDownloaded(QNetworkReply* reply)
 {
   const QUrl url = reply->url();
   if (reply->error())
@@ -95,7 +92,7 @@ void HttpClient::downloadFinished(QNetworkReply* reply)
     else
     {
       const QString data = reply->readAll();
-      downloadedData.push_back(data);
+      emit downloadEvent(qMove(data));
     }
   }
 
@@ -108,5 +105,4 @@ void HttpClient::downloadFinished(QNetworkReply* reply)
     emit downloadFinished();
     QCoreApplication::instance()->quit();
   }
-
 }

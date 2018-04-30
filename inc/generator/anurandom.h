@@ -3,8 +3,11 @@
 
 #include "generator/randomengine.h"
 
-class AnuRandom : public RandomEngine
+#include <QObject>
+
+class AnuRandom : public QObject, public RandomEngine
 {
+  Q_OBJECT
 public:
 
   AnuRandom(const qsizetype _len);

@@ -25,26 +25,24 @@ class HttpClient: public QObject
 public:
   HttpClient(const QVector<QString>& _downloadUrls);
 
-  QVector<QString> getData() const;
-  QVector<QString> getData(const int timeout_msec) const;
+  void waitForDownload(const int timeout_ms) const;
 
 public slots:
   void execute();
-  void downloadFinished(QNetworkReply *reply);
+  void readDownloaded(QNetworkReply *reply);
   void sslErrors(const QList<QSslError> &errors);
 
 signals:
   void downloadFinished();
+  void downloadEvent(const QString data);
 
 private:
   QNetworkAccessManager   manager;
   QVector<QNetworkReply*> currentDownloads;
   QAtomicInt              isFinished;
-  QVector<QString>        downloadedData;
   QVector<QString>        downloadUrls;
 
   void requestDownload(const QUrl& url);
-
   static bool isHttpRedirect(QNetworkReply* reply);
 
 };
