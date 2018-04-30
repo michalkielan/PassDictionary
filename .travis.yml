@@ -20,7 +20,7 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
             - ubuntu-sdk-team-ppa
-            - sudo apt-add-repository -y ppa:beineri/opt-qt562-trusty
+            - beineri-opt-qt562-trusty
           packages:
             - gcc-7
             - g++-7
