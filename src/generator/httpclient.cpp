@@ -1,84 +1,72 @@
 #include "generator/httpclient.h"
+#include "generator/httpstatuscodes.h"
 
 #include <QList>
 #include <QSslError>
+#include <QDebug>
 
-HttpClient::HttpClient(QVector<QString> _urls) :
-  urls{_urls}
+HttpClient::HttpClient(const QVector<QString>& _downloadUrls) :
+  manager{},
+  currentDownloads{},
+  isFinished{false},
+  downloadedData{},
+  downloadUrls{_downloadUrls}
 {
   connect(&manager, SIGNAL(finished(QNetworkReply*)), SLOT(downloadFinished(QNetworkReply*)));
 }
 
-
-void HttpClient::doDownload(const QUrl &url)
+QVector<QString> HttpClient::getData() const
 {
-  QNetworkRequest request(url);
-  QNetworkReply *reply = manager.get(request);
+  return getData(5000);
+}
+
+QVector<QString> HttpClient::getData(const int timeout_msec) const
+{
+  QTimer timer;
+  timer.setSingleShot(true);
+  QEventLoop loop;
+  connect(this, SIGNAL(downloadFinished()), &loop, SLOT(quit()));
+  connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
+  timer.start(timeout_msec);
+  loop.exec();
+
+  return downloadedData;
+}
+
+void HttpClient::requestDownload(const QUrl& url)
+{
+  QNetworkRequest request{url};
+  QNetworkReply* reply = manager.get(request);
 
 #if QT_CONFIG(ssl)
   connect(reply, SIGNAL(sslErrors(QList<QSslError>)), SLOT(sslErrors(QList<QSslError>)));
 #endif
 
   currentDownloads.append(reply);
-  downloadFinished(reply);
-
 }
 
-QString HttpClient::saveFileName(const QUrl& url)
+bool HttpClient::isHttpRedirect(QNetworkReply* reply)
 {
-  QString path = url.path();
-  QString basename = QFileInfo(path).fileName();
+  const auto statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+  return statusCode == HttpStatusCodes::Redirections::MovedPermanently  ||
+         statusCode == HttpStatusCodes::Redirections::Found             ||
+         statusCode == HttpStatusCodes::Redirections::SeeOther          ||
+         statusCode == HttpStatusCodes::Redirections::UseProxy          ||
+         statusCode == HttpStatusCodes::Redirections::TemporaryRedirect ||
+         statusCode == HttpStatusCodes::Redirections::PermanentRedirect ||
+         0;
+}
 
-  if (basename.isEmpty())
-      basename = "download";
-
-  if (QFile::exists(basename))
+void HttpClient::execute()
+{
+  for(const QString& urlPath : downloadUrls)
   {
-    // already exists, don't overwrite
-    int i = 0;
-    basename += '.';
-    while (QFile::exists(basename + QString::number(i)))
-        ++i;
-
-    basename += QString::number(i);
-  }
-
-  return basename;
-}
-
-bool HttpClient::saveToDisk(const QString &filename, QIODevice *data)
-{
-  QFile file(filename);
-  if (!file.open(QIODevice::WriteOnly)) {
-      fprintf(stderr, "Could not open %s for writing: %s\n",
-              qPrintable(filename),
-              qPrintable(file.errorString()));
-      return false;
-  }
-
-  file.write(data->readAll());
-  file.close();
-
-  return true;
-}
-
-bool HttpClient::isHttpRedirect(QNetworkReply *reply)
-{
-  int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-  return statusCode == 301 || statusCode == 302 || statusCode == 303
-         || statusCode == 305 || statusCode == 307 || statusCode == 308;
-}
-
-void HttpClient::download()
-{
-  for (const QString &arg : urls)
-  {
-    QUrl url = QUrl::fromEncoded(arg.toLocal8Bit());
-    doDownload(url);
+    const QUrl url = QUrl::fromEncoded(urlPath.toLocal8Bit());
+    requestDownload(url);
   }
 }
 
-void HttpClient::sslErrors(const QList<QSslError> &sslErrors)
+void HttpClient::sslErrors(const QList<QSslError>& sslErrors)
 {
 #if QT_CONFIG(ssl)
     for (const QSslError &error : sslErrors)
@@ -88,38 +76,37 @@ void HttpClient::sslErrors(const QList<QSslError> &sslErrors)
 #endif
 }
 
-void HttpClient::downloadFinished(QNetworkReply *reply)
+void HttpClient::downloadFinished(QNetworkReply* reply)
 {
-    QUrl url = reply->url();
-    if (reply->error())
+  const QUrl url = reply->url();
+  if (reply->error())
+  {
+    qDebug() << "Download of " << url.toEncoded().constData() <<
+    " failed: " << qPrintable(reply->errorString());
+  }
+
+  else
+  {
+    if(isHttpRedirect(reply))
     {
-      fprintf(stderr, "Download of %s failed: %s\n",
-              url.toEncoded().constData(),
-              qPrintable(reply->errorString()));
+      qDebug() << "Request was redirected";
     }
+
     else
     {
-      if (isHttpRedirect(reply))
-      {
-        fputs("Request was redirected.\n", stderr);
-      }
-
-      else
-      {
-        QString filename = saveFileName(url);
-        if (saveToDisk(filename, reply))
-        {
-          printf("Download of %s succeeded (saved to %s)\n",
-                 url.toEncoded().constData(), qPrintable(filename));
-        }
-      }
+      const QString data = reply->readAll();
+      downloadedData.push_back(data);
     }
+  }
 
-    currentDownloads.removeAll(reply);
-    reply->deleteLater();
+  currentDownloads.removeAll(reply);
+  reply->deleteLater();
 
-    if (currentDownloads.isEmpty()) {
-        // all downloads finished
-        QCoreApplication::instance()->quit();
-    }
+  if (currentDownloads.isEmpty())
+  {
+    isFinished.store(true);
+    emit downloadFinished();
+    QCoreApplication::instance()->quit();
+  }
+
 }

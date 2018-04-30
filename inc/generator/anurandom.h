@@ -7,7 +7,7 @@ class AnuRandom : public RandomEngine
 {
 public:
 
-  AnuRandom();
+  AnuRandom(const qsizetype _len);
 
   /**
    * @overload
@@ -17,8 +17,9 @@ public:
   virtual ~AnuRandom();
 
 private:
-  qsizetype len;
-  QString   url;
+  qsizetype     len;
+  QString       url;
+  const QString anuServer {"https://qrng.anu.edu.au"};
 
 };
 

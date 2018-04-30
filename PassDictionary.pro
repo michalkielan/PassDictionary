@@ -54,7 +54,8 @@ HEADERS += \
     inc/generator/httpclient.h \
     inc/generator/genaratorwindow.h \
     inc/generator/randomengine.h \
-    inc/generator/anurandom.h
+    inc/generator/anurandom.h \
+    inc/generator/httpstatuscodes.h
 
 FORMS += \
     forms/mainwindow.ui \

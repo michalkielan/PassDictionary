@@ -48,6 +48,7 @@ struct CharactersTypes
   bool numbers;
   bool symbols;
   bool ambigous;
+  int passphraseLength;
 };
 
 void GenaratorWindow::on_generateButton_clicked()
@@ -57,8 +58,9 @@ void GenaratorWindow::on_generateButton_clicked()
   charactersTypes.lowerWords = ui->lowerLettersCheckBox->isChecked();
   charactersTypes.numbers = ui->numbersCheckBox->isChecked();
   charactersTypes.ambigous = ui->ambigousCheckBox->isChecked();
+  charactersTypes.passphraseLength = 5;
 
-  AnuRandom ar{};
+  AnuRandom ar{charactersTypes.passphraseLength};
   ar.getRandom();
 }
 
