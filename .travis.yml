@@ -4,6 +4,9 @@ language: cpp
 sudo: required
 
 script:
+  - QTDIR="/opt/qt56"
+  - PATH="$QTDIR/bin:$PATH"
+  - qt56-env.sh
   - mkdir build
   - cd build
   - qmake ../PassDictionary.pro
@@ -17,15 +20,14 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
             - ubuntu-sdk-team-ppa
+            - sudo apt-add-repository -y ppa:beineri/opt-qt562-trusty
           packages:
             - gcc-7
             - g++-7
-            - qtbase5-dev
-            - qtdeclarative5-dev
-            - libqt5webkit5-dev
-            - libsqlite3-dev
-            - qt5-default
-            - qttools5-dev-tools
+            - libc6-i386 
+            - qt56tools 
+            - qt56svg 
+            - qt56script
 
     - env: COMPILER_NAME=clang-5.0 COMPILER_CXX=clang++-5.0 COMPILER_CC=clang-5.0
       addons:
