@@ -38,7 +38,9 @@ SOURCES += \
     src/aboutwindow.cpp \
     src/printer.cpp \
     src/generator/httpclient.cpp \
-    src/generator/genaratorwindow.cpp
+    src/generator/genaratorwindow.cpp \
+    src/generator/randomengine.cpp \
+    src/generator/anurandom.cpp
 
 HEADERS += \
     inc/mainwindow.h \
@@ -50,7 +52,9 @@ HEADERS += \
     inc/aboutwindow.h \
     inc/printer.h \
     inc/generator/httpclient.h \
-    inc/generator/genaratorwindow.h
+    inc/generator/genaratorwindow.h \
+    inc/generator/randomengine.h \
+    inc/generator/anurandom.h
 
 FORMS += \
     forms/mainwindow.ui \

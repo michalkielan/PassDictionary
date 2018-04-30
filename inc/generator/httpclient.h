@@ -9,19 +9,31 @@ class HttpClient: public QObject
 {
     Q_OBJECT
     QNetworkAccessManager    manager;
-    QVector<QNetworkReply *> currentDownloads;
+    QVector<QNetworkReply*>  currentDownloads;
+    QVector<QString>         urls;
 
-//public:
-//    HttpClient();
-//    void doDownload(const QUrl& url);
-//    static QString saveFileName(const QUrl& url);
-//    bool saveToDisk(const QString &filename, QIODevice* data);
-//    static bool isHttpRedirect(QNetworkReply* reply);
+public:
+    HttpClient(QVector<QString> _urls);
+    void doDownload(const QUrl &url);
+    static QString saveFileName(const QUrl &url);
+    bool saveToDisk(const QString &filename, QIODevice *data);
+    static bool isHttpRedirect(QNetworkReply *reply);
+  void download();
+public slots:
 
-//public slots:
-//    void execute();
-//    void downloadFinished(QNetworkReply* reply);
-//    void sslErrors(const QList<QSslError>& errors);
+    void downloadFinished(QNetworkReply *reply);
+    void sslErrors(const QList<QSslError> &errors);
 };
+
+//int main(int argc, char **argv)
+//{
+//    QCoreApplication app(argc, argv);
+
+//    DownloadManager manager;
+//    QTimer::singleShot(0, &manager, SLOT(execute()));
+
+//    app.exec();
+//}
+
 
 #endif // HTTPCLIENT_H
