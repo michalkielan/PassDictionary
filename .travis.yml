@@ -19,7 +19,6 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - ubuntu-sdk-team-ppa
             - beineri-opt-qt562-trusty
           packages:
             - gcc-7
