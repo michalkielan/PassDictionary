@@ -26,7 +26,7 @@ QVector<uchar> AnuRandom::getRandom()
   QTimer::singleShot(0, &anuDownloader, SLOT(execute()));
 
   QVector<QString> pages;
-  connect(&anuDownloader, &HttpClient::downloadEvent, this, [&,this](const QString value){
+  connect(&anuDownloader, &HttpClient::downloadEvent, this, [&,this](const QByteArray value){
     pages.push_back(qMove(value));
 
     // write to file?

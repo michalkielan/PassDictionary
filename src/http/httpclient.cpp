@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QEventLoop>
 #include <QTimer>
+#include <QSharedPointer>
 
 HttpClient::HttpClient(const QVector<QString>& _downloadUrls) :
   manager{},
@@ -93,7 +94,7 @@ void HttpClient::readDownloaded(QNetworkReply* reply)
 
     else
     {
-      const QString data = reply->readAll();
+      const QByteArray data = reply->readAll();
       emit downloadEvent(qMove(data));
     }
   }

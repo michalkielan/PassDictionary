@@ -23,7 +23,7 @@ public slots:
 
 signals:
   void downloadFinished();
-  void downloadEvent(const QString data);
+  void downloadEvent(const QByteArray data);
 
 private:
   QNetworkAccessManager   manager;
