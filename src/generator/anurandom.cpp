@@ -1,6 +1,8 @@
 #include "generator/anurandom.h"
 #include "http/httpclient.h"
 
+#include <QTimer>
+
 AnuRandom::AnuRandom(const qsizetype _len) :
   len{_len}
 {

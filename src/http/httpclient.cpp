@@ -1,9 +1,10 @@
 #include "http/httpclient.h"
 #include "http/httpstatuscodes.h"
 
-#include <QList>
 #include <QSslError>
 #include <QDebug>
+#include <QEventLoop>
+#include <QTimer>
 
 HttpClient::HttpClient(const QVector<QString>& _downloadUrls) :
   manager{},
@@ -14,24 +15,25 @@ HttpClient::HttpClient(const QVector<QString>& _downloadUrls) :
   connect(&manager, &QNetworkAccessManager::finished, this, &HttpClient::readDownloaded);
 }
 
-void HttpClient::waitForDownload(const int timeout_ms) const
+bool HttpClient::waitForDownload(const int timeout_ms) const
 {
   QTimer timer;
-  QEventLoop loop;
+  QEventLoop eventLoop;
 
   timer.setSingleShot(true);
 
-  connect(this,   &HttpClient::downloadFinished, &loop, &QEventLoop::quit);
-  connect(&timer, &QTimer::timeout,              &loop, &QEventLoop::quit);
+  connect(this,   &HttpClient::downloadFinished, &eventLoop, &QEventLoop::quit);
+  connect(&timer, &QTimer::timeout,              &eventLoop, &QEventLoop::quit);
 
   timer.start(timeout_ms);
-  loop.exec();
+  eventLoop.exec();
+  return true;
 }
 
 void HttpClient::requestDownload(const QUrl& url)
 {
-  QNetworkRequest request{url};
-  QNetworkReply* reply = manager.get(request);
+  const QNetworkRequest request{url};
+  QNetworkReply* const reply = manager.get(request);
 
 #if QT_CONFIG(ssl)
   connect(reply, SIGNAL(sslErrors(QList<QSslError>)), SLOT(sslErrors(QList<QSslError>)));
@@ -40,7 +42,7 @@ void HttpClient::requestDownload(const QUrl& url)
   currentDownloads.append(reply);
 }
 
-bool HttpClient::isHttpRedirect(QNetworkReply* reply)
+bool HttpClient::isHttpRedirect(const QNetworkReply* const reply)
 {
   const auto statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
   return statusCode == HttpStatusCodes::Redirections::MovedPermanently  ||
@@ -64,7 +66,7 @@ void HttpClient::execute()
 void HttpClient::sslErrors(const QList<QSslError>& sslErrors)
 {
 #if QT_CONFIG(ssl)
-   for (const QSslError &error : sslErrors)
+   for(const QSslError &error : sslErrors)
    {
      qDebug() << "SSL error: " << qPrintable(error.errorString());
    }
@@ -76,7 +78,7 @@ void HttpClient::sslErrors(const QList<QSslError>& sslErrors)
 void HttpClient::readDownloaded(QNetworkReply* reply)
 {
   const QUrl url = reply->url();
-  if (reply->error())
+  if(reply->error())
   {
     qDebug() << "Download of " << url.toEncoded().constData() <<
     " failed: " << qPrintable(reply->errorString());
