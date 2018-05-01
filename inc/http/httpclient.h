@@ -12,7 +12,7 @@ class HttpClient: public QObject
   Q_OBJECT
 
 public:
-  HttpClient(const QVector<QString>& _downloadUrls);
+  HttpClient(const QString _downloadUrls, const int _threadNum);
 
   bool waitForDownload(const int timeout_ms) const;
 
@@ -29,7 +29,8 @@ private:
   QNetworkAccessManager   manager;
   QVector<QNetworkReply*> currentDownloads;
   QAtomicInt              isFinished;
-  QVector<QString>        downloadUrls;
+  QString                 downloadUrl;
+  int                     threadNum;
 
   void requestDownload(const QUrl& url);
   static bool isHttpRedirect(const QNetworkReply* const reply);

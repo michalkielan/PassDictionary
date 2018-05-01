@@ -23,7 +23,6 @@ private:
   qsizetype     len;
   QString       url;
   const QString anuServer {"https://qrng.anu.edu.au"};
-
 };
 
 #endif // ANURANDOM_H

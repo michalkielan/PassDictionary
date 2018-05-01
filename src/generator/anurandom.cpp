@@ -1,35 +1,29 @@
 #include "generator/anurandom.h"
 #include "http/httpclient.h"
+#include "safequeue.h"
 
 #include <QTimer>
 
 AnuRandom::AnuRandom(const qsizetype _len) :
-  len{_len}
+  len{_len},
+  url{"/API/jsonI.php?length=" + QString::number(len) + "&type=uint8"}
 {
-  const QString format = "uint8";
-  url = "/API/jsonI.php?length=" + QString::number(len) + "&type=" + format;
 }
 
 QVector<uchar> AnuRandom::getRandom()
 {
-  QVector<QString> urls;
-  urls.push_back(anuServer + url);
-  urls.push_back(anuServer + url);
-  urls.push_back(anuServer + url);
-  urls.push_back(anuServer + url);
-  urls.push_back(anuServer + url);
-  urls.push_back(anuServer + url);
-  urls.push_back(anuServer + url);
-
-  HttpClient anuDownloader(urls);
+  const QString downloadUrl{anuServer + url};
+  HttpClient anuDownloader{downloadUrl, 10};
 
   QTimer::singleShot(0, &anuDownloader, SLOT(execute()));
 
   QVector<QString> pages;
-  connect(&anuDownloader, &HttpClient::downloadEvent, this, [&,this](const QByteArray value){
-    pages.push_back(qMove(value));
 
-    // write to file?
+  SafeQueue<QString> queue;
+
+  connect(&anuDownloader, &HttpClient::downloadEvent, this, [&,this](const QByteArray value){
+    // pop to queue?
+    queue.push(value);
   });
 
   anuDownloader.waitForDownload(5000);

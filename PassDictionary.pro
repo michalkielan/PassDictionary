@@ -41,7 +41,8 @@ SOURCES += \
     src/generator/genaratorwindow.cpp \
     src/generator/randomengine.cpp \
     src/generator/anurandom.cpp \
-    inc/generator/anujsonparser.cpp
+    inc/generator/anujsonparser.cpp \
+    inc/safequeue.cpp
 
 HEADERS += \
     inc/mainwindow.h \
@@ -57,7 +58,8 @@ HEADERS += \
     inc/generator/genaratorwindow.h \
     inc/generator/randomengine.h \
     inc/generator/anurandom.h \
-    inc/generator/anujsonparser.h
+    inc/generator/anujsonparser.h \
+    inc/safequeue.h
 
 FORMS += \
     forms/mainwindow.ui \

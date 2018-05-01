@@ -7,11 +7,12 @@
 #include <QTimer>
 #include <QSharedPointer>
 
-HttpClient::HttpClient(const QVector<QString>& _downloadUrls) :
+HttpClient::HttpClient(const QString _downloadUrl, const int _threadNum) :
   manager{},
   currentDownloads{},
   isFinished{false},
-  downloadUrls{_downloadUrls}
+  downloadUrl{qMove(_downloadUrl)},
+  threadNum{_threadNum}
 {
   connect(&manager, &QNetworkAccessManager::finished, this, &HttpClient::readDownloaded);
 }
@@ -57,9 +58,9 @@ bool HttpClient::isHttpRedirect(const QNetworkReply* const reply)
 
 void HttpClient::execute()
 {
-  for(const QString& urlPath : downloadUrls)
+  const QUrl url = QUrl::fromEncoded(downloadUrl.toLocal8Bit());
+  for(int i=0; i<threadNum; i++)
   {
-    const QUrl url = QUrl::fromEncoded(urlPath.toLocal8Bit());
     requestDownload(url);
   }
 }
