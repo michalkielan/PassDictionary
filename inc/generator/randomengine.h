@@ -2,12 +2,14 @@
 #define RANDOMENGINE_H
 
 #include <QVector>
+#include <QObject>
 
 /**
  * @brief The RandomEngine interface class
  */
 class RandomEngine
 {
+
 public:
 
   /**
@@ -24,6 +26,7 @@ public:
    * @brief Destructor
    */
   virtual ~RandomEngine();
+
 };
 
 #endif // RANDOMENGINE_H

@@ -14,7 +14,7 @@ class HttpClient: public QObject
 public:
   HttpClient(const QString _downloadUrls, const int _threadNum);
 
-  bool waitForDownload(const int timeout_ms) const;
+  bool isTimeouted(const int timeout_ms) const;
 
 public slots:
   void execute();
@@ -26,15 +26,16 @@ signals:
   void downloadEvent(const QByteArray data);
 
 private:
+
+  void requestDownload(const QUrl& url);
+  static bool isHttpRedirect(const QNetworkReply* const reply);
+  bool waitForDownload(const int timeout_ms) const;
+
   QNetworkAccessManager   manager;
   QVector<QNetworkReply*> currentDownloads;
   QAtomicInt              isFinished;
   QString                 downloadUrl;
   int                     threadNum;
-
-  void requestDownload(const QUrl& url);
-  static bool isHttpRedirect(const QNetworkReply* const reply);
-
 };
 
 

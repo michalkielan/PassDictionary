@@ -66,7 +66,7 @@ public:
     }
 
     const T tmp = data.front();
-    data.pop();
+    data.pop_back();
     return tmp;
   }
 

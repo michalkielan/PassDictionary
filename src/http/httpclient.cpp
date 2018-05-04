@@ -17,6 +17,11 @@ HttpClient::HttpClient(const QString _downloadUrl, const int _threadNum) :
   connect(&manager, &QNetworkAccessManager::finished, this, &HttpClient::readDownloaded);
 }
 
+bool HttpClient::isTimeouted(const int timeout_ms) const
+{
+  return waitForDownload(timeout_ms);
+}
+
 bool HttpClient::waitForDownload(const int timeout_ms) const
 {
   QTimer timer;
@@ -29,7 +34,8 @@ bool HttpClient::waitForDownload(const int timeout_ms) const
 
   timer.start(timeout_ms);
   eventLoop.exec();
-  return true;
+
+  return timer.isActive();
 }
 
 void HttpClient::requestDownload(const QUrl& url)

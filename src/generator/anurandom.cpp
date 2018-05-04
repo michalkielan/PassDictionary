@@ -1,6 +1,7 @@
 #include "generator/anurandom.h"
 #include "http/httpclient.h"
 #include "safequeue.h"
+#include "generator/anujsonparser.h"
 
 #include <QTimer>
 
@@ -19,17 +20,26 @@ QVector<uchar> AnuRandom::getRandom()
 
   QVector<QString> pages;
 
-  SafeQueue<QString> queue;
+  SafeQueue<QByteArray> queue;
 
   connect(&anuDownloader, &HttpClient::downloadEvent, this, [&,this](const QByteArray value){
     // pop to queue?
     queue.push(value);
   });
 
-  anuDownloader.waitForDownload(5000);
+  if(!anuDownloader.isTimeouted(10000))
+  {
+    const QByteArray page = queue.pop();
 
-  QVector<uchar> v;
-  return v;
+    AnuJsonParser anuJsonParser{page};
+    return anuJsonParser.getRandom();
+  }
+
+  else
+  {
+    qDebug() << "Download error: timeout occurs";
+    return {};
+  }
 }
 
 AnuRandom::~AnuRandom()

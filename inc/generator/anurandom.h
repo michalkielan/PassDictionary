@@ -5,9 +5,10 @@
 
 #include <QObject>
 
-class AnuRandom : public QObject, public RandomEngine
+class AnuRandom : public QObject, RandomEngine
 {
   Q_OBJECT
+
 public:
 
   AnuRandom(const qsizetype _len);
@@ -18,6 +19,12 @@ public:
   QVector<uchar> getRandom() override;
 
   virtual ~AnuRandom();
+
+signals:
+  /**
+   * @overload
+   */
+  void readRandom(const QByteArray value);
 
 private:
   qsizetype     len;
