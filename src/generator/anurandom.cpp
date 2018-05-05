@@ -14,22 +14,22 @@ AnuRandom::AnuRandom(const qsizetype _len) :
 QVector<uchar> AnuRandom::getRandom()
 {
   const QString downloadUrl{anuServer + url};
-  HttpClient anuDownloader{downloadUrl, 10};
+
+  constexpr const unsigned int downloadThreads = 15;
+  HttpClient anuDownloader{downloadUrl, downloadThreads};
 
   QTimer::singleShot(0, &anuDownloader, SLOT(execute()));
 
-  QVector<QString> pages;
-
-  SafeQueue<QByteArray> queue;
+  SafeQueue<QByteArray> randomCharacters;
 
   connect(&anuDownloader, &HttpClient::downloadEvent, this, [&,this](const QByteArray value){
-    // pop to queue?
-    queue.push(value);
+    randomCharacters.push(value);
   });
 
-  if(!anuDownloader.isTimeouted(10000))
+  constexpr const unsigned int timeout_ms = 10000;
+  if(!anuDownloader.isTimeouted(timeout_ms))
   {
-    const QByteArray page = queue.pop();
+    const QByteArray page = randomCharacters.pop();
 
     AnuJsonParser anuJsonParser{page};
     return anuJsonParser.getRandom();
@@ -44,5 +44,4 @@ QVector<uchar> AnuRandom::getRandom()
 
 AnuRandom::~AnuRandom()
 {
-
 }

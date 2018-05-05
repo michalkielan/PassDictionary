@@ -2,7 +2,7 @@
 
 #include <QTextStream>
 
-PassDictionary::PassDictionary(QFile _word, QFile _pass) :
+PassDictionary::PassDictionary(const QString _words, QString _pass) :
   words{_words},
   pass{_pass}
 {
@@ -13,28 +13,27 @@ QString PassDictionary::getString(QByteArray randomData) const
   return QString{randomData};
 }
 
-void PassDictionary::writeToPass(SafeQueue<QByteArray>& passphrases)
+void PassDictionary::write(SafeQueue<QByteArray>& randomData)
 {
+  // this may be a thread to write data to file
   pass.open(QIODevice::WriteOnly | QIODevice::Text);
   QTextStream passStream(&pass);
 
   if(words.open(QIODevice::ReadOnly))
   {
-    enableWidgets(true);
-
-    QTextStream buffer(&pass);
+    QTextStream buffer{&pass};
     while(!buffer.atEnd())
     {
       const QString word = buffer.readLine();
-      const QString passphrase = toString(passphrases.pop());
+      const QString passphrase = getString(randomData.pop());
       passStream << passphrase << "\t" << word << "\n";
     }
     pass.close();
   }
 }
 
-
-void PassDictionary::write(const QByteArray value)
+void PassDictionary::readRandom(SafeQueue<QByteArray>& randomData)
 {
-  randomData = qMove(value);
+  (void)randomData;
+  // this may be a thread to read data from anu random
 }

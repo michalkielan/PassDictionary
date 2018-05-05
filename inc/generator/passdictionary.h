@@ -5,21 +5,39 @@
 
 #include <QFile>
 
+/**
+ * @brief The PassDictionary class
+ */
 class PassDictionary
 {
 
 public:
 
-  PassDictionary(QFile _word, QFile _pass);
+  /**
+   * @brief PassDictionary
+   * @param file with words
+   * @param file with passphrases
+   */
+  PassDictionary(const QString _words, QString _pass);
 
-  void writeToPass(SafeQueue<QByteArray>& passphrases);
+  /**
+   * @brief write random data from randomData queue to file
+   * @param randomData
+   */
+  void write(SafeQueue<QByteArray>& randomData);
+
+  /**
+   * @brief save random data to randomData queue
+   * @param randomData
+   */
+  void readRandom(SafeQueue<QByteArray>& randomData);
 
 private:
 
   QString getString(QByteArray randomData) const;
 
-  QFile pass;
   QFile words;
+  QFile pass;
 };
 
 #endif // PASSDICTIONARY_H

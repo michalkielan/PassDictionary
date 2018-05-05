@@ -1,4 +1,4 @@
-#include "anujsonparser.h"
+#include "generator/anujsonparser.h"
 
 #include <QJsonObject>
 #include <QVariantMap>
@@ -47,10 +47,10 @@ QVector<uchar> AnuJsonParser::getRandom() const
     return {};
   }
 
+  const QJsonArray randomData = jsonObject["data"].toArray();
+
   QVector<uchar> rand;
   rand.reserve(length);
-
-  const QJsonArray randomData = jsonObject["data"].toArray();
 
   for(const auto& value : randomData)
   {

@@ -5,9 +5,11 @@
 #include <QByteArray>
 #include <QVector>
 
+/**
+ * @brief The AnuJsonParser class
+ */
 class AnuJsonParser
 {
-  QJsonDocument doc;
 
 public:
 
@@ -47,6 +49,10 @@ public:
    * @brief Destructor
    */
   ~AnuJsonParser();
+
+private:
+
+    QJsonDocument doc;
 };
 
 #endif // ANUJSONPARSER_H
