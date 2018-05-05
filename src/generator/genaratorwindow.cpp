@@ -1,9 +1,13 @@
 #include "generator/genaratorwindow.h"
-#include "generator/anurandom.h"
+//#include "generator/anurandom.h"
+#include "generator/passdictionary.h"
 #include "ui_genaratorwindow.h"
 #include "fileloader.h"
 
 #include <QDir>
+#include <QThread>
+#include <QTimer>
+#include <QtGlobal>
 
 GenaratorWindow::GenaratorWindow(QWidget* parent) :
   QDialog(parent),
@@ -60,8 +64,24 @@ void GenaratorWindow::on_generateButton_clicked()
   charactersTypes.ambigous = ui->ambigousCheckBox->isChecked();
   charactersTypes.passphraseLength = 5;
 
-  AnuRandom ar{charactersTypes.passphraseLength};
-  ar.getRandom();
+  QString passPath = QDir::tempPath() + "pass_tmp.txt";
+  PassDictionary passDictionary{wordsPath, passPath};
+
+//  void write(SafeQueue<QByteArray>& randomData);
+//  void readRandom(SafeQueue<QByteArray>& randomData);
+
+//  QThread writer;
+//  passDictionary.moveToThread(&writer);
+
+//  connect(&writer, &QThread::started, &passDictionary, &PassDictionary::write);
+//  connect(&passDictionary, &PassDictionary::writeFinished, &writer, &QThread::quit);
+
+//  connect(&passDictionary, &PassDictionary::writeFinished, passDictionary, &PassDictionary::deleteLater);
+
+//  connect(&writer, &QThread::finished, &writer, &QThread::deleteLater);
+
+//  writer.start();
+
 }
 
 void GenaratorWindow::on_inputFileButton_clicked()

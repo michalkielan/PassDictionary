@@ -11,7 +11,7 @@ AnuRandom::AnuRandom(const qsizetype _len) :
 {
 }
 
-QVector<uchar> AnuRandom::getRandom()
+void AnuRandom::getRandom(SafeQueue<QByteArray>& randomCharacters)
 {
   const QString downloadUrl{anuServer + url};
 
@@ -20,8 +20,6 @@ QVector<uchar> AnuRandom::getRandom()
 
   QTimer::singleShot(0, &anuDownloader, SLOT(execute()));
 
-  SafeQueue<QByteArray> randomCharacters;
-
   connect(&anuDownloader, &HttpClient::downloadEvent, this, [&,this](const QByteArray value){
     randomCharacters.push(value);
   });
@@ -29,16 +27,15 @@ QVector<uchar> AnuRandom::getRandom()
   constexpr const unsigned int timeout_ms = 10000;
   if(!anuDownloader.isTimeouted(timeout_ms))
   {
-    const QByteArray page = randomCharacters.pop();
+//    const QByteArray page = randomCharacters.pop();
 
-    AnuJsonParser anuJsonParser{page};
-    return anuJsonParser.getRandom();
+//    AnuJsonParser anuJsonParser{page};
+//    return anuJsonParser.getRandom();
   }
 
   else
   {
     qDebug() << "Download error: timeout occurs";
-    return {};
   }
 }
 

@@ -4,12 +4,15 @@
 #include "safequeue.h"
 
 #include <QFile>
+#include <QObject>
+#include <QAtomicInt>
 
 /**
  * @brief The PassDictionary class
  */
-class PassDictionary
+class PassDictionary : public QObject
 {
+  Q_OBJECT
 
 public:
 
@@ -20,24 +23,30 @@ public:
    */
   PassDictionary(const QString _words, QString _pass);
 
+public slots:
+
   /**
    * @brief write random data from randomData queue to file
    * @param randomData
    */
-  void write(SafeQueue<QByteArray>& randomData);
+  void write();
 
   /**
    * @brief save random data to randomData queue
    * @param randomData
    */
-  void readRandom(SafeQueue<QByteArray>& randomData);
+  void readRandom();
+
+signals:
+  void writeFinished();
+  void readRandomFinished();
 
 private:
 
-  QString getString(QByteArray randomData) const;
-
-  QFile words;
-  QFile pass;
+  QFile                 words;
+  QFile                 pass;
+  SafeQueue<QByteArray> randomData;
+  QAtomicInt            done;
 };
 
 #endif // PASSDICTIONARY_H

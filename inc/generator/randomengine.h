@@ -20,7 +20,7 @@ public:
   /**
    * @brief Get vector of char random data
    */
-  virtual QVector<uchar> getRandom() = 0;
+  //virtual QVector<uchar> getRandom() = 0;
 
   /**
    * @brief Destructor

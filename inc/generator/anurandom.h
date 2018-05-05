@@ -2,6 +2,7 @@
 #define ANURANDOM_H
 
 #include "generator/randomengine.h"
+#include "safequeue.h"
 
 #include <QObject>
 
@@ -16,7 +17,7 @@ public:
   /**
    * @overload
    */
-  QVector<uchar> getRandom() override;
+  void getRandom(SafeQueue<QByteArray> &randomData);
 
   virtual ~AnuRandom();
 
