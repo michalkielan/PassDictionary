@@ -41,8 +41,8 @@ SOURCES += \
     src/generator/genaratorwindow.cpp \
     src/generator/randomengine.cpp \
     src/generator/anurandom.cpp \
-    inc/generator/anujsonparser.cpp \
-    inc/safequeue.cpp \
+    src/generator/anujsonparser.cpp \
+    src/safequeue.cpp \
     src/generator/passdictionary.cpp
 
 HEADERS += \
