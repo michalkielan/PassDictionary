@@ -25,15 +25,7 @@ void AnuRandom::getRandom(SafeQueue<QByteArray>& randomCharacters)
   });
 
   constexpr const unsigned int timeout_ms = 10000;
-  if(!anuDownloader.isTimeouted(timeout_ms))
-  {
-//    const QByteArray page = randomCharacters.pop();
-
-//    AnuJsonParser anuJsonParser{page};
-//    return anuJsonParser.getRandom();
-  }
-
-  else
+  if(anuDownloader.isTimeouted(timeout_ms))
   {
     qDebug() << "Download error: timeout occurs";
   }

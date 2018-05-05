@@ -2,10 +2,13 @@
 #define PASSDICTIONARY_H
 
 #include "safequeue.h"
+#include "generator/passwriter.h"
+#include "generator/randomread.h"
 
 #include <QFile>
 #include <QObject>
 #include <QAtomicInt>
+#include <QSharedPointer>
 
 /**
  * @brief The PassDictionary class
@@ -23,30 +26,16 @@ public:
    */
   PassDictionary(const QString _words, QString _pass);
 
-public slots:
-
-  /**
-   * @brief write random data from randomData queue to file
-   * @param randomData
-   */
-  void write();
-
-  /**
-   * @brief save random data to randomData queue
-   * @param randomData
-   */
-  void readRandom();
-
-signals:
-  void writeFinished();
-  void readRandomFinished();
+  void start();
+  void wait();
 
 private:
 
-  QFile                 words;
-  QFile                 pass;
   SafeQueue<QByteArray> randomData;
   QAtomicInt            done;
+  PassWriter            passWriter;
+  RandomReader          randomReader;
+
 };
 
 #endif // PASSDICTIONARY_H

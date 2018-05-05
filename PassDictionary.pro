@@ -43,7 +43,11 @@ SOURCES += \
     src/generator/anurandom.cpp \
     src/generator/anujsonparser.cpp \
     src/safequeue.cpp \
-    src/generator/passdictionary.cpp
+    src/generator/passdictionary.cpp \
+    src/generator/passwriter.cpp \
+    src/generator/randomread.cpp \
+    src/generator/randomcharacters.cpp \
+    src/generator/charactersconfig.cpp
 
 HEADERS += \
     inc/mainwindow.h \
@@ -61,7 +65,11 @@ HEADERS += \
     inc/generator/anurandom.h \
     inc/generator/anujsonparser.h \
     inc/safequeue.h \
-    inc/generator/passdictionary.h
+    inc/generator/passdictionary.h \
+    inc/generator/passwriter.h \
+    inc/generator/randomread.h \
+    inc/generator/randomcharacters.h \
+    inc/generator/charactersconfig.h
 
 FORMS += \
     forms/mainwindow.ui \

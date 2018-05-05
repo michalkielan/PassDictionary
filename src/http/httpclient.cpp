@@ -5,7 +5,6 @@
 #include <QDebug>
 #include <QEventLoop>
 #include <QTimer>
-#include <QSharedPointer>
 
 HttpClient::HttpClient(const QString _downloadUrl, const int _threadNum) :
   manager{},
