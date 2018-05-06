@@ -1,5 +1,8 @@
 #include "generator/randomread.h"
 #include "generator/anurandom.h"
+#include "safequeue.h"
+
+#include <QByteArray>
 
 RandomReader::RandomReader(SafeQueue<QByteArray>& _randomData, QObject* parent) :
   QThread{parent},
@@ -10,8 +13,10 @@ RandomReader::RandomReader(SafeQueue<QByteArray>& _randomData, QObject* parent) 
 void RandomReader::readRand()
 {
   AnuRandom anuRandom{5};
-  anuRandom.getRandom(randomData);
-  int x;
+  while(1)
+  {
+    anuRandom.getRandom(randomData);
+  }
 }
 
 void RandomReader::run()

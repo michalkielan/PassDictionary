@@ -3,6 +3,7 @@
 #include "generator/passdictionary.h"
 #include "ui_genaratorwindow.h"
 #include "fileloader.h"
+#include "generator/charactersconfig.h"
 
 #include <QDir>
 #include <QThread>
@@ -45,32 +46,22 @@ GenaratorWindow::~GenaratorWindow()
   delete ui;
 }
 
-struct CharactersTypes
-{
-  bool upperWords;
-  bool lowerWords;
-  bool numbers;
-  bool symbols;
-  bool ambigous;
-  int passphraseLength;
-};
-
 void GenaratorWindow::on_generateButton_clicked()
 {
   ui->generateButton->setEnabled(false);
-  CharactersTypes charactersTypes;
-  charactersTypes.upperWords = ui->upperLettersCheckBox->isChecked();
-  charactersTypes.lowerWords = ui->lowerLettersCheckBox->isChecked();
-  charactersTypes.numbers = ui->numbersCheckBox->isChecked();
-  charactersTypes.ambigous = ui->ambigousCheckBox->isChecked();
-  charactersTypes.passphraseLength = 5;
+  CharactersConfig charactersConfig;
+  charactersConfig.upperWords = ui->upperLettersCheckBox->isChecked();
+  charactersConfig.lowerWords = ui->lowerLettersCheckBox->isChecked();
+  charactersConfig.numbers = ui->numbersCheckBox->isChecked();
+  charactersConfig.ambigous = ui->ambigousCheckBox->isChecked();
+  charactersConfig.passphraseLength = 5;
 
   QString passPath = QDir::tempPath() + "/pass_tmp.txt";
-  PassDictionary passDictionary{wordsPath, passPath};
+  PassDictionary passDictionary{wordsPath, passPath, charactersConfig};
 
   passDictionary.start();
   passDictionary.wait();
-//  ui->generateButton->setEnabled(true);
+  ui->generateButton->setEnabled(true);
 }
 
 void GenaratorWindow::on_inputFileButton_clicked()

@@ -1,25 +1,41 @@
 #ifndef RANDOMREAD_H
 #define RANDOMREAD_H
 
-#include "safequeue.h"
-
 #include <QThread>
-#include <QByteArray>
-#include <QFile>
 
+template<typename T>
+class SafeQueue;
+
+class QByteArray;
+
+/**
+ * @brief The RandomReader thread class
+ */
 class RandomReader : public QThread
 {
   Q_OBJECT
-public:
-  RandomReader(SafeQueue<QByteArray>& _randomData, QObject* parent = nullptr);
-
-  void run() override;
-
-public slots:
-  void readRand();
+  friend class PassDictionary;
 
 private:
 
+  /**
+   * @brief Constructor
+   * @param queue with random data
+   * @param parent
+   */
+  RandomReader(SafeQueue<QByteArray>& _randomData, QObject* parent = nullptr);
+
+  /**
+   * @overload
+   */
+  void run() override;
+
+  /**
+   * @brief read random data
+   */
+  void readRand();
+
+private:
   SafeQueue<QByteArray>& randomData;
 };
 

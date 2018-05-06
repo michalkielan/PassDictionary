@@ -1,13 +1,21 @@
 #include "generator/passwriter.h"
 #include "generator/anujsonparser.h"
+#include "generator/randomcharacters.h"
+#include "safequeue.h"
 
 #include <QTextStream>
+#include <QByteArray>
 
-PassWriter::PassWriter(const QString _words, QString _pass, SafeQueue<QByteArray>& _randomData, QObject* parent) :
+PassWriter::PassWriter(const QString _words,
+                       const QString _pass,
+                       SafeQueue<QByteArray>& _randomData,
+                       const CharactersConfig _charactersConfig,
+                       QObject* parent) :
   QThread{parent},
-  words{_words},
-  pass{_pass},
-  randomData{_randomData}
+  words{qMove(_words)},
+  pass{qMove(_pass)},
+  randomData{_randomData},
+  charactersConfig{_charactersConfig}
 {
 }
 
@@ -25,20 +33,26 @@ void PassWriter::write()
     QTextStream wordsBuffer{&words};
     QTextStream passBuffer{&pass};
 
+    RandomCharacters randomCharacters{charactersConfig};
+
     while(!wordsBuffer.atEnd())
     {
       const QString word = wordsBuffer.readLine();
-      const QByteArray page = randomData.pop();
+      const QByteArray anuJson = randomData.pop();
 
-      AnuJsonParser anuJsonParser{page};
+      AnuJsonParser anuJsonParser{anuJson};
+      const auto randomBytes = anuJsonParser.getRandom();
+      const QString passphrase = randomCharacters.getRandomString(randomBytes);
 
-      const auto passphrase = anuJsonParser.getRandom();
-      (void)passphrase;
-      passBuffer << "passphrase" << "\t" << word << "\n";
+      passBuffer << passphrase << "\t" << word << "\n";
     }
     pass.close();
     words.close();
   }
   emit writeFinished();
+}
+
+PassWriter::~PassWriter()
+{
 }
 

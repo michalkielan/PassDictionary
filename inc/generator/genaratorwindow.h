@@ -8,12 +8,23 @@ namespace Ui {
 class GenaratorWindow;
 }
 
+/**
+ * @brief The GenaratorWindow class
+ */
 class GenaratorWindow : public QDialog
 {
   Q_OBJECT
 
 public:
+  /**
+   * @brief Constructor
+   * @param parent
+   */
   explicit GenaratorWindow(QWidget* parent = 0);
+
+  /**
+   * @brief Destructor
+   */
   ~GenaratorWindow();
 
 private slots:

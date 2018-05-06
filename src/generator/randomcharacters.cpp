@@ -22,7 +22,7 @@ void RandomCharacters::fillCharacters(const QVector<uchar>& custom)
   if(charactersConfig.custom && !custom.empty()) characters.append(custom);
 }
 
-QString RandomCharacters::getRandomString(const QByteArray &randomData)
+QString RandomCharacters::getRandomString(const QVector<uchar> &randomData)
 {
   QString random;
   random.reserve(randomData.size());

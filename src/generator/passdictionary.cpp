@@ -1,12 +1,9 @@
 #include "generator/passdictionary.h"
-#include "generator/anurandom.h"
-#include "generator/anujsonparser.h"
 
-#include <QTextStream>
-
-PassDictionary::PassDictionary(const QString _words, QString _pass) :
+PassDictionary::PassDictionary(const QString _words, const QString _pass,
+                               const CharactersConfig charactersConfig) :
   randomData{},
-  passWriter{_words, _pass, randomData},
+  passWriter{qMove(_words), qMove(_pass), randomData, charactersConfig},
   randomReader{randomData}
 {
   connect(&passWriter, &PassWriter::writeFinished, &randomReader, &RandomReader::terminate);
@@ -22,4 +19,8 @@ void PassDictionary::wait()
 {
   passWriter.wait();
   randomReader.wait();
+}
+
+PassDictionary::~PassDictionary()
+{
 }
