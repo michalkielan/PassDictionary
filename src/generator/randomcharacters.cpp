@@ -38,7 +38,7 @@ uchar RandomCharacters::getRandomCharacter(const uchar value) const
 {
   constexpr const uchar min = 0;
   //assert(characters.size() < 0xFF);
-  const uchar max = characters.size()-1;
+  const uchar max = static_cast<uchar>(characters.size())-1;
   const auto index = value % (max + 1 - min) + min;
   return characters[index];
 }

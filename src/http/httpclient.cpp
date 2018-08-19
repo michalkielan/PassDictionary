@@ -60,7 +60,6 @@ bool HttpClient::isHttpRedirect(const QNetworkReply* const reply)
          statusCode == HttpStatusCodes::Redirections::PermanentRedirect ||
          0;
 }
-
 void HttpClient::execute()
 {
   const QUrl url = QUrl::fromEncoded(downloadUrl.toLocal8Bit());
@@ -108,7 +107,7 @@ void HttpClient::readDownloaded(QNetworkReply* reply)
   currentDownloads.removeAll(reply);
   reply->deleteLater();
 
-  if (currentDownloads.isEmpty())
+  if(currentDownloads.isEmpty())
   {
     isFinished.store(true);
     emit downloadFinished();

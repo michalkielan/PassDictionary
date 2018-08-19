@@ -56,7 +56,7 @@ void GenaratorWindow::on_generateButton_clicked()
   charactersConfig.ambigous = ui->ambigousCheckBox->isChecked();
   charactersConfig.passphraseLength = 5;
 
-  QString passPath = QDir::tempPath() + "/pass_tmp.txt";
+  const QString passPath = QDir::tempPath() + "/pass_tmp.txt";
   PassDictionary passDictionary{wordsPath, passPath, charactersConfig};
 
   passDictionary.start();

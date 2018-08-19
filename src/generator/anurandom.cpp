@@ -20,12 +20,13 @@ void AnuRandom::getRandom(SafeQueue<QByteArray>& randomCharacters)
 
   QTimer::singleShot(0, &anuDownloader, SLOT(execute()));
 
-  connect(&anuDownloader, &HttpClient::downloadEvent, this, [&,this](const QByteArray value){
+  connect(&anuDownloader, &HttpClient::downloadEvent,
+          this, [&,this](const QByteArray value){
     randomCharacters.push(value);
   });
 
-  constexpr const unsigned int timeout_ms = 10000;
-  if(anuDownloader.isTimeouted(timeout_ms))
+  constexpr const unsigned int timeoutMs = 10000;
+  if(anuDownloader.isTimeouted(timeoutMs))
   {
     qDebug() << "Download error: timeout occurs";
   }
