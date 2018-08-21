@@ -10,7 +10,7 @@ script:
   - perl init-repository
   - yes | ./configure -developer-build -opensource -nomake examples -nomake tests
   - make -j4
-  - make install
+  - sudo make install
   - cd ..
   - mkdir build
   - cd build
