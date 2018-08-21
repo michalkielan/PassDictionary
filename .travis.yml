@@ -6,7 +6,7 @@ sudo: required
 script:
   - git clone https://code.qt.io/qt/qt5.git
   - cd qt5
-  - git checkout 5.10
+  - git checkout 5.11
   - perl init-repository
   - ./configure -developer-build -opensource -nomake examples -nomake tests
   - make -j4
