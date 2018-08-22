@@ -4,14 +4,9 @@ language: cpp
 sudo: required
 
 script:
-  - git clone https://code.qt.io/qt/qt5.git
-  - cd qt5
-  - git checkout 5.11
-  - perl init-repository
-  - yes | ./configure -developer-build -opensource -nomake examples -nomake tests
-  - make -j4
-  - sudo make install
-  - cd ..
+  - wget http://download.qt.io/official_releases/qt/5.11/5.11.0/qt-opensource-linux-x64-5.11.0.run
+  - chmod +x qt-opensource-linux-x64-5.11.0.run
+  - ./qt-opensource-linux-x64-5.11.0.run
   - mkdir build
   - cd build
   - qmake ../PassDictionary.pro
