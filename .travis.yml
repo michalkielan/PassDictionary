@@ -8,8 +8,8 @@ script:
   - cd qt5
   - git checkout 5.11
   - perl init-repository
-  - yes | CXXFLAGS+=-Wno-error=unused-variable QMAKE_CXXFLAGS+=-Wno-error=unused-variable ./configure -opensource -nomake examples -nomake tests
-  - make -j4
+  - yes | ./configure -opensource -nomake examples -nomake tests
+  - make -j4 > null.log
 
 matrix:
   include:
