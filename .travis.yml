@@ -6,7 +6,7 @@ sudo: required
 script:
   - wget http://download.qt.io/official_releases/qt/5.11/5.11.0/qt-opensource-linux-x64-5.11.0.run
   - chmod +x qt-opensource-linux-x64-5.11.0.run
-  - ./qt-opensource-linux-x64-5.11.0.run
+  - ./qt-opensource-linux-x64-5.11.0.run --script qt-installer-noninteractive.qs
   - mkdir build
   - cd build
   - qmake ../PassDictionary.pro
