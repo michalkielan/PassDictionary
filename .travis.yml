@@ -4,9 +4,14 @@ language: cpp
 sudo: required
 
 script:
-  - wget http://download.qt.io/official_releases/qt/5.11/5.11.0/qt-opensource-linux-x64-5.11.0.run
-  - chmod +x qt-opensource-linux-x64-5.11.0.run
-  - ./qt-opensource-linux-x64-5.11.0.run --script qt-installer-noninteractive.qs
+  - git clone https://code.qt.io/qt/qt5.git
+  - cd qt5
+  - git checkout 5.11
+  - perl init-repository
+  - ./configure -developer-build -opensource -nomake examples -nomake tests
+  - make -j4
+  - make install
+  - cd ..
   - mkdir build
   - cd build
   - qmake ../PassDictionary.pro
@@ -14,7 +19,7 @@ script:
 
 matrix:
   include:
-    - env: COMPILER_NAME=gcc-7 COMPILER_CXX=g++-7 COMPILER_CC=gcc-7
+    - env: #COMPILER_NAME=gcc-7 COMPILER_CXX=g++-7 COMPILER_CC=gcc-7
       addons:
         apt:
           sources:
