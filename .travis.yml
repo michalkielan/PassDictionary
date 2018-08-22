@@ -8,7 +8,7 @@ script:
   - cd qt5
   - git checkout 5.11
   - perl init-repository
-  - yes | ./configure -developer-build -opensource -nomake examples -nomake tests
+  - yes | QMAKE_CXXFLAGS+=-Wno-error=unused-variable ./configure -developer-build -opensource -nomake examples -nomake tests
   - make -j4
   - make install
   - cd ..
