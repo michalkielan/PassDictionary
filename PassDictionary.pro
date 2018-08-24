@@ -13,7 +13,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = PassDictionaryQt
 TEMPLATE = app
 
-QMAKE_CXXFLAGS += -std=c++14 -Wall -Wextra -Wshadow -pedantic
+QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -pedantic
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
