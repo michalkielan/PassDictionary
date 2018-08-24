@@ -17,7 +17,7 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - beineri/opt-qt-5.10.1-trusty
+            - beineri-opt-qt-5.10.1-trusty
           packages:
             - gcc-7
             - g++-7
