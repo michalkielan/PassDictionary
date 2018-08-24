@@ -7,6 +7,7 @@ before_script:
   - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
   - sudo apt-get update -q
   - sudo apt-get install -y qt510-meta-full
+
 script:
   - mkdir build
   - cd build
@@ -21,51 +22,30 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-              #            - beineri-opt-qt-5.10.1-trusty
           packages:
             - gcc-7
             - g++-7
-              #            - qtbase5-dev
-              #            - qtdeclarative5-dev
-              #            - libqt5webkit5-dev
-              #            - libsqlite3-dev
-              #            - qt5-default
-              #            - qttools5-dev-tools
 
-              #    - env: COMPILER_NAME=clang-5.0 COMPILER_CXX=clang++-5.0 COMPILER_CC=clang-5.0
-              #      addons:
-              #        apt:
-              #          sources:
-              #            - ubuntu-toolchain-r-test
-              #            - llvm-toolchain-trusty-5.0
-              #            - beineri/opt-qt511-trusty
-              #          packages:
-              #            - gcc-7
-              #            - g++-7
-              #            - clang-5.0
-              #            - clang++-5.0
-              #            - qtbase5-dev
-              #            - qtdeclarative5-dev
-              #            - libqt5webkit5-dev
-              #            - libsqlite3-dev
-              #            - qt5-default
-              #            - qttools5-dev-tools
-              #
-              #    - env: COMPILER_NAME=clang-4.0 COMPILER_CXX=clang++-4.0 COMPILER_CC=clang-4.0
-              #      addons:
-              #        apt:
-              #          sources:
-              #            - ubuntu-toolchain-r-test
-              #            - llvm-toolchain-trusty-4.0
-              #            - beineri/opt-qt511-trusty
-              #          packages:
-              #            - gcc-7
-              #            - g++-7
-              #            - clang-4.0
-              #            - clang++-4.0
-              #            - qtbase5-dev
-              #            - qtdeclarative5-dev
-              #            - libqt5webkit5-dev
-              #            - libsqlite3-dev
-              #            - qt5-default
-              #            - qttools5-dev-tools
+    - env: COMPILER_NAME=clang-5.0 COMPILER_CXX=clang++-5.0 COMPILER_CC=clang-5.0
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-5.0
+          packages:
+            - gcc-7
+            - g++-7
+            - clang-5.0
+            - clang++-5.0
+
+    - env: COMPILER_NAME=clang-4.0 COMPILER_CXX=clang++-4.0 COMPILER_CC=clang-4.0
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-4.0
+          packages:
+            - gcc-7
+            - g++-7
+            - clang-4.0
+            - clang++-4.0
