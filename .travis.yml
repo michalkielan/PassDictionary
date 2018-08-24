@@ -3,6 +3,10 @@ os: linux
 language: cpp
 sudo: required
 
+before_script:
+  - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
+  - sudo apt-get update -q
+  - sudo apt-get instal  qt510-meta-full -y
 script:
   - mkdir build
   - cd build
@@ -17,11 +21,10 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - beineri-opt-qt-5.10.1-trusty
+              #            - beineri-opt-qt-5.10.1-trusty
           packages:
             - gcc-7
             - g++-7
-            - qt510-meta-full
               #            - qtbase5-dev
               #            - qtdeclarative5-dev
               #            - libqt5webkit5-dev
