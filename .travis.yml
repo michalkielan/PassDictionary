@@ -7,7 +7,7 @@ before_script:
   - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
   - sudo apt-get update -q
   - sudo apt-get install -y qt510-meta-full
-  - sudo apt-get install -y libasan libubsan libtsan
+#  - sudo apt-get install -y libasan libubsan libtsan
 
 script:
   # normal
