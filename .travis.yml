@@ -20,14 +20,14 @@ script:
   # ubsan
   - mkdir build-tsan && cd build-tsan
   - source /opt/qt510/bin/qt510-env.sh
-  - qmake "QMAKE_CXXFLAGS+=-fsanitize=undefined QMAKE_LFLAGS+=-fsanitize=undefined" ../PassDictionary.pro
+  - qmake "QMAKE_CXXFLAGS+=-fsanitize=undefined" "QMAKE_LFLAGS+=-fsanitize=undefined" ../PassDictionary.pro
   - make CC=${COMPILER_CC} CXX=${COMPILER_CXX} LINK=${COMPILER_CXX}
   - cd ..
   
   # asan
   - mkdir build-asan && cd build-asan
   - source /opt/qt510/bin/qt510-env.sh
-  - qmake "QMAKE_CXXFLAGS+=-fsanitize=address QMAKE_LFLAGS+=-fsanitize=address" ../PassDictionary.pro
+  - qmake "QMAKE_CXXFLAGS+=-fsanitize=address" "QMAKE_LFLAGS+=-fsanitize=address" ../PassDictionary.pro
   - make CC=${COMPILER_CC} CXX=${COMPILER_CXX} LINK=${COMPILER_CXX}
   - cd ..
 
