@@ -7,13 +7,29 @@ before_script:
   - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
   - sudo apt-get update -q
   - sudo apt-get install -y qt510-meta-full
+  - sudo apt-get install -y libasan libubsan libtsan
 
 script:
-  - mkdir build
-  - cd build
+  # normal
+  - mkdir build && cd build
   - source /opt/qt510/bin/qt510-env.sh
   - qmake "QMAKE_CXXFLAGS += -Werror" ../PassDictionary.pro
   - make CC=${COMPILER_CC} CXX=${COMPILER_CXX} LINK=${COMPILER_CXX}
+  - cd ..
+  
+  # ubsan
+  - mkdir build-tsan && cd build-tsan
+  - source /opt/qt510/bin/qt510-env.sh
+  - qmake "QMAKE_CXXFLAGS += -fsanitize=undefined QMAKE_LFLAGS+= -fsanitize=undefined" ../PassDictionary.pro
+  - make CC=${COMPILER_CC} CXX=${COMPILER_CXX} LINK=${COMPILER_CXX}
+  - cd ..
+  
+  # asan
+  - mkdir build-asan && cd build-asan
+  - source /opt/qt510/bin/qt510-env.sh
+  - qmake "QMAKE_CXXFLAGS += -fsanitize=address QMAKE_LFLAGS += -fsanitize=address" ../PassDictionary.pro
+  - make CC=${COMPILER_CC} CXX=${COMPILER_CXX} LINK=${COMPILER_CXX}
+  - cd ..
 
 matrix:
   include:
